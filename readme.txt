@@ -26,5 +26,9 @@ $ virtualenv /apps/pytin-agentd/venv
 
 $ exit
 
-Выполнить скрипт который установит/обновит агента
+Под root выполнить скрипт, который установит/обновит агента
 $ bash < (curl https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh)
+
+либо так
+$ wget https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
+$ bash install.sh
