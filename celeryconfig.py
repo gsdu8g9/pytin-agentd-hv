@@ -4,8 +4,12 @@ import ConfigParser
 import os
 from datetime import timedelta
 
+from kombu import Queue
+
 AGENT_CONFIG = ConfigParser.SafeConfigParser({'heartbeat-interval-sec': 5, 'log-file': None})
 AGENT_CONFIG.read(os.path.join(os.path.dirname(__file__), 'agentd.cfg'))
+AGENT_NODE_ID = AGENT_CONFIG.get('agent', 'cmdb-node-id')
+AGENT_NODE_QUEUE = "cmdb.node.%s" % AGENT_NODE_ID
 
 BROKER_URL = AGENT_CONFIG.get('agent', 'broker')
 CELERY_RESULT_BACKEND = AGENT_CONFIG.get('agent', 'backend')
@@ -16,6 +20,14 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TIMEZONE = 'Europe/Moscow'
 CELERY_ENABLE_UTC = True
 
+CELERY_QUEUES = (
+    Queue("default", routing_key="default"),
+    Queue(AGENT_NODE_QUEUE, routing_key=AGENT_NODE_QUEUE),
+)
+CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
+CELERY_DEFAULT_QUEUE = 'default'
+CELERY_DEFAULT_ROUTING_KEY = 'default'
+
 CELERYBEAT_SCHEDULE = {
     'heartbeat': {
         'task': 'tasks.scheduled.heartbeat',
@@ -23,6 +35,6 @@ CELERYBEAT_SCHEDULE = {
         'args': (
             AGENT_CONFIG.get('agent', 'cmdb-server'),
             AGENT_CONFIG.get('agent', 'cmdb-api-key'),
-            AGENT_CONFIG.get('agent', 'cmdb-node-id'))
+            AGENT_NODE_ID)
     },
 }

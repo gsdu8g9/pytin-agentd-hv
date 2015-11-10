@@ -57,3 +57,5 @@ cmdb-node-id=1
 
 Период обновления параметра хоста agentd_heartbeat в CMDB
 heartbeat-interval-sec=30
+
+
