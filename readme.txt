@@ -32,3 +32,28 @@ $ bash < (curl https://raw.githubusercontent.com/servancho/pytin-agentd-hv/maste
 либо так
 $ wget https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
 $ bash install.sh
+
+Скрипт ставит celery, init.d скрипты запуска celery-демонов, проставляет права на файлы и директории.
+Так же внутри виртуального окружения обновляются зависимости, указанные в requirements.txt.
+
+
+Конфигурация
+------------
+
+Конфигурация агента находится в файле agentd.cfg.
+
+Транспорт для сообщений
+broker = redis://127.0.0.1:8888/1
+
+Хранение результатов и отслеживание статусов задач
+backend = redis://127.0.0.1:8888/2
+
+Хост Pytin CMDB с запущенным API-сервером
+cmdb-server=http://127.0.0.1:8080
+cmdb-api-key=ksfakashfkgasddhjfgashjfgajhsgf
+
+ID ноды в CMDB, соответствующей текущему хосту, на котором установлен агент
+cmdb-node-id=1
+
+Период обновления параметра хоста agentd_heartbeat в CMDB
+heartbeat-interval-sec=30
