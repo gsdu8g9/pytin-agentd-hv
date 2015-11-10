@@ -47,6 +47,7 @@ cd
 
 echo "Cleanup"
 rm -rf ${DISTRIB_DIR}/pytin-agentd-hv-master
+rm -f ${DISTRIB_DIR}/*.zip
 rm -rf ${APP_TARGET}/tests
 rm -rf ${APP_TARGET}/deploy
 
