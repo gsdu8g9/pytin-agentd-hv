@@ -32,10 +32,9 @@ def shell_hook(hook_name, options):
 
     cmd = 'cd %s && /bin/bash %s %s' % (hooks_dir, hook_script, json_options_file)
 
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     command_output = []
-
     try:
         while True:
             out = process.stdout.readline()
@@ -58,7 +57,7 @@ def shell_hook(hook_name, options):
 
     error_code = process.poll()
     if error_code > 0:
-        raise Exception("Shell script error code: %s. Command output: %s." % (error_code, "\n".join(command_output)))
+        raise Exception("Shell script error code: %s. Check logs." % error_code)
 
     return {
         'output': command_output,
