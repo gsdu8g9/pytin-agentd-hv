@@ -44,7 +44,7 @@ DNS2=46.17.46.200
 
 ################## do not change #################
 SCRIPTDIR=$(pwd)
-WORKDIR=${SCRIPTDIR}/${VMID}-$(date +"%S")
+WORKDIR=${SCRIPTDIR}/${VMID}-$(date +"%s")
 
 mkdir -p ${WORKDIR}
 cd ${WORKDIR}

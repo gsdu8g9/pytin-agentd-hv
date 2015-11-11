@@ -5,7 +5,11 @@ import os
 import subprocess
 import time
 
+from celery.utils.log import get_task_logger
+
 from agentd import app
+
+logger = get_task_logger(__name__)
 
 
 @app.task
@@ -42,6 +46,7 @@ def shell_hook(hook_name, options):
             if out == '' and process.poll() is not None:
                 break
             if out != '':
+                logger.info(out)
                 shell_hook.update_state(state='PROGRESS', meta={'line': out.encode(encoding='utf-8')})
                 command_output.append(out.strip().encode(encoding='utf-8'))
     except Exception, ex:
