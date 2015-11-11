@@ -56,6 +56,10 @@ def shell_hook(hook_name, options):
         if os.path.exists(json_options_file):
             os.remove(json_options_file)
 
+    error_code = process.poll()
+    if error_code > 0:
+        raise Exception("Shell script error code: %s. Command output: %s." % (error_code, "\n".join(command_output)))
+
     return {
         'output': command_output,
         'code': process.poll()

@@ -28,7 +28,8 @@ def main():
 
     args = parser.parse_args()
 
-    target_format = args.out.lower()[1 - args.out.rfind('.'):]
+    out_file_name = args.out.decode('utf-8')
+    target_format = out_file_name.lower()[out_file_name.rfind('.') + 1:]
     if target_format not in SUPPORTED_FORMATS:
         raise ValueError('Unknown target format %s' % target_format)
 
