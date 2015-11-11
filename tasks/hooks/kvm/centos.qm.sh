@@ -60,6 +60,12 @@ VPS_CONFIG_FILE=${VPS_CONFIG_FILE:-$1}
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
+echo "Rename config ${VPS_CONFIG_FILE} -> ${VMID}.shell"
+if [[ ! -e kvm/archive ]]; then
+    mkdir -p kvm/archive
+fi
+mv ${VPS_CONFIG_FILE} kvm/archive/${VMID}.shell
+
 DNS1=46.17.40.200
 DNS2=46.17.46.200
 
