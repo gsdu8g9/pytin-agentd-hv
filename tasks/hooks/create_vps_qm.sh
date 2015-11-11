@@ -9,4 +9,6 @@ python optconv.py $1 ${CONFIG_FILE_NAME}
 
 # execute task with config
 source ./kvm/centos.qm.sh ${CONFIG_FILE_NAME}
+
+rm -f ${CONFIG_FILE_NAME}
 set +e

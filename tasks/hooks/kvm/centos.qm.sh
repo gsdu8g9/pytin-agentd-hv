@@ -27,6 +27,28 @@
 # Requirements:
 #   genisoimage, qemu
 #
+# Required options:
+# CentOS version
+# CENT_OS_VER=7  # 6 or 7
+#
+# Change this parameters
+# USER_ID=<user_id>
+# VMID=<id_of_the_vm>
+# VMNAME=<name_of_the_vm>
+#
+# HDD size in Gb
+# HDDGB=5
+#
+# RAM size in Gb
+# MEMMB=1024
+#
+# CPU cores
+# VCPU=1
+#
+# IPADDR=<ip_of_the_vm>
+# GW=<gateway_of_the_vm>
+# NETMASK=<netmask_of_the_vm>
+
 
 if [[ -z $1 ]]; then
     echo "Config file must be specified."
@@ -105,3 +127,6 @@ pveum useradd u${USER_ID}@pve -comment 'User u${USER_ID}'
 pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
 
 pveum passwd u${USER_ID}@pve
+
+echo "Remove working dir: " ${WORKDIR}
+rm -rf ${WORKDIR}
