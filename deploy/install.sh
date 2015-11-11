@@ -38,6 +38,7 @@ venvpart
 echo "Copy init.d scripts"
 cp -f ${APP_TARGET}/deploy/conf/celery* /etc/init.d/
 cp -f ${APP_TARGET}/deploy/conf/celeryd.config /etc/default/celeryd
+rm -f /etc/init.d/celeryd.config
 
 chown root:root /etc/default/celeryd
 chown root:root /etc/init.d/celery*

@@ -57,8 +57,7 @@ fi
 
 VPS_CONFIG_FILE=${VPS_CONFIG_FILE:-$1}
 
-echo "Passed config: " ${VPS_CONFIG_FILE}
-
+echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
 DNS1=46.17.40.200
