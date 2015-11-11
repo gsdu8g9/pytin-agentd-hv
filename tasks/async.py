@@ -26,9 +26,9 @@ def shell_hook(hook_name, options):
     with open(json_options_file, mode='w') as json_options:
         json_options.write(json.dumps(options))
 
-    cmd = '/bin/bash %s %s' % (hook_script, json_options_file)
+    cmd = 'cd %s && /bin/bash %s %s' % (hooks_dir, hook_script, json_options_file)
 
-    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     command_output = []
 
