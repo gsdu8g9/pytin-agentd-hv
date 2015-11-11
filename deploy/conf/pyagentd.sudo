@@ -1,0 +1,2 @@
+Cmnd_Alias  PROVISION = /bin/bash /apps/pytin-agentd/tasks/hooks/kvm/*
+pyagentd ALL = (root) NOPASSWD: PROVISION

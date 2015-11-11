@@ -43,6 +43,11 @@ chown root:root /etc/default/celeryd
 chown root:root /etc/init.d/celery*
 chmod +x /etc/init.d/celery*
 
+echo "Install sudoer"
+cp -f ${APP_TARGET}/deploy/conf/pyagentd.sudo /etc/sudoers.d/pyagentd
+chmod 0440 /etc/sudoers.d/pyagentd
+chown root:root /etc/sudoers.d/*
+
 cd
 
 echo "Cleanup"
