@@ -23,8 +23,4 @@ sudo /bin/bash ./kvm/centos.qm.sh ${PROCESSED_CONFIG}
 
 set +e
 
-# After this delimiter all output will be stored in the separate result section - return.
-echo ":RETURN:"
-cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
-
 exit 0

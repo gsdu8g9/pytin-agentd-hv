@@ -132,6 +132,10 @@ else
     pveum useradd u${USER_ID}@pve -comment 'User u${USER_ID}'
     pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
 
+    # After this delimiter all output will be stored in the separate result section - return.
+    echo ":RETURN:"
+    cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
+
     RET_CODE=0
 fi
 

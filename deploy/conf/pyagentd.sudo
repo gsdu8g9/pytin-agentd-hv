@@ -1,2 +1,2 @@
-Cmnd_Alias  PROVISION = /bin/bash ./kvm/*,cat /etc/pve/local/qemu-server/*
+Cmnd_Alias  PROVISION = /bin/bash ./kvm/*
 pyagentd ALL = (root) NOPASSWD: PROVISION
