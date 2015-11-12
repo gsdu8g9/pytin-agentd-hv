@@ -21,11 +21,11 @@ if [[ -z ${SUBCOMMAND} ]]; then
     exit 101
 fi
 
-PROCESSED_CONFIG=kvm/create_vps_qm/${VMID}.create.$(date +"%s").shell
+PROCESSED_CONFIG=kvm/vps_qm_proxy/${VMID}.${SUBCOMMAND}.$(date +"%s").shell
 
 echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
-if [[ ! -e kvm/create_vps_qm ]]; then
-    mkdir -p kvm/create_vps_qm
+if [[ ! -e kvm/vps_qm_proxy ]]; then
+    mkdir -p kvm/vps_qm_proxy
 fi
 
 mv ${CONFIG_FILE_NAME} ${PROCESSED_CONFIG}
