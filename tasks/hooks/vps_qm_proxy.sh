@@ -16,6 +16,11 @@ python optconv.py $1 ${CONFIG_FILE_NAME}
 
 . "${CONFIG_FILE_NAME}"
 
+if [[ -z ${SUBCOMMAND} ]]; then
+    echo "Missing SUBCOMMAND"
+    exit 101
+fi
+
 PROCESSED_CONFIG=kvm/create_vps_qm/${VMID}.create.$(date +"%s").shell
 
 echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
@@ -26,7 +31,8 @@ fi
 mv ${CONFIG_FILE_NAME} ${PROCESSED_CONFIG}
 
 # execute task with config
-sudo /bin/bash ./kvm/centos.qm.sh ${PROCESSED_CONFIG}
+echo "Running subcommand: ${SUBCOMMAND}"
+sudo /bin/bash ./kvm/${SUBCOMMAND}.sh ${PROCESSED_CONFIG}
 
 set +e
 

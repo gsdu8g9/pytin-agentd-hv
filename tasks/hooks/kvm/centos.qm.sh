@@ -48,6 +48,9 @@
 # IPADDR=<ip_of_the_vm>
 # GW=<gateway_of_the_vm>
 # NETMASK=<netmask_of_the_vm>
+#
+# Optional
+# ROOTPASS
 
 
 if [[ -z $1 ]]; then
@@ -55,7 +58,7 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-VPS_CONFIG_FILE=${VPS_CONFIG_FILE:-$1}
+VPS_CONFIG_FILE=$1
 
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
@@ -91,6 +94,9 @@ KICKSTART_FILE="${WORKDIR}/${KICKSTART_FILE_NAME}"
 
 ISOPATH="/var/lib/vz/template/iso"
 
+ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
+ROOTPASS=${ROOTPASS:-ROOTPASS_GEN}
+
 # update KS
 cp -f ${KICKSTART_TEMPLATE} ${KICKSTART_FILE}
 perl -pi -e "s/\|IPADDR\|/${IPADDR}/g" ${KICKSTART_FILE}
@@ -99,6 +105,7 @@ perl -pi -e "s/\|HOSTNAME\|/${VMNAME}/g" ${KICKSTART_FILE}
 perl -pi -e "s/\|NETMASK\|/${NETMASK}/g" ${KICKSTART_FILE}
 perl -pi -e "s/\|DNS1\|/${DNS1}/g" ${KICKSTART_FILE}
 perl -pi -e "s/\|DNS2\|/${DNS2}/g" ${KICKSTART_FILE}
+perl -pi -e "s/\|ROOTPASS\|/${ROOTPASS}/g" ${KICKSTART_FILE}
 
 #create iso
 genisoimage -o ksboot.iso ${KICKSTART_FILE}
@@ -134,6 +141,7 @@ else
 
     # After this delimiter all output will be stored in the separate result section - return.
     echo ":RETURN:"
+    echo "rootpass: ${ROOTPASS}"
     cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
 
     RET_CODE=0

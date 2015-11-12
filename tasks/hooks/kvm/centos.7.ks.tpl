@@ -23,7 +23,7 @@ timezone --utc Europe/Moscow
 network --onboot yes --bootproto static --ip |IPADDR| --netmask |NETMASK| --gateway |GW| --noipv6 --nameserver |DNS1| --hostname=|HOSTNAME|
 
 # Root password
-rootpw  --iscrypted $6$e9LAvaKhsKpVFL1U$ummLp..ULwzXADdwSjEahp67NI1lDjwe6Xs0d2s4fUGFQF7/Cfri3EM3cXRPH0Ys5N7cOK9xrx6EjnkCV5a8q1
+rootpw  |ROOTPASS|
 
 # System bootloader configuration
 bootloader --append=" crashkernel=auto" --location=mbr --boot-drive=vda
