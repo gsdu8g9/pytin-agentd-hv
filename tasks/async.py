@@ -34,7 +34,8 @@ def shell_hook(hook_name, options):
 
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-    command_output = []
+    command_return = []
+    store_return = False
     try:
         while True:
             out = process.stdout.readline()
@@ -46,8 +47,16 @@ def shell_hook(hook_name, options):
                 break
             if out != '':
                 logger.info(out)
-                shell_hook.update_state(state='PROGRESS', meta={'line': out.encode(encoding='utf-8')})
-                command_output.append(out.strip().encode(encoding='utf-8'))
+
+                out_line = out.strip().encode(encoding='utf-8')
+                shell_hook.update_state(state='PROGRESS', meta={'line': out_line})
+
+                if store_return:
+                    command_return.append(out_line)
+
+            if out == ':RETURN:':
+                store_return = True
+
     except Exception, ex:
         process.kill()
         raise ex
@@ -60,6 +69,6 @@ def shell_hook(hook_name, options):
         raise Exception("Shell script error code: %s. Check logs." % error_code)
 
     return {
-        'output': command_output,
+        'return': command_return,
         'code': process.poll()
     }

@@ -60,12 +60,6 @@ VPS_CONFIG_FILE=${VPS_CONFIG_FILE:-$1}
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
-echo "Rename config ${VPS_CONFIG_FILE} -> ${VMID}.shell"
-if [[ ! -e kvm/archive ]]; then
-    mkdir -p kvm/archive
-fi
-mv ${VPS_CONFIG_FILE} kvm/archive/${VMID}.shell
-
 DNS1=46.17.40.200
 DNS2=46.17.46.200
 
@@ -118,20 +112,30 @@ else
 fi
 
 qm start ${VMID}
-qm wait ${VMID}
 
-# unmount cd, remove args
-qm set ${VMID} --args "" --ide2 none,media=cdrom
-qm set ${VMID} -delete args
+RET_CODE=0
+echo "Waiting for VM provision more than 30 minutes. Provision failed."
+qm wait ${VMID} -timeout 1800
+if [ $? -ne 0 ]; then
+    echo "Too long VPS creation, check the VPS console."
+    qm stop ${VMID}
 
-qm start ${VMID}
+    RET_CODE=100
+else
+    # unmount cd, remove args
+    qm set ${VMID} --args "" --ide2 none,media=cdrom
+    qm set ${VMID} -delete args
 
+    qm start ${VMID}
 
-pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
-pveum useradd u${USER_ID}@pve -comment 'User u${USER_ID}'
-pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
+    pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
+    pveum useradd u${USER_ID}@pve -comment 'User u${USER_ID}'
+    pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
 
-pveum passwd u${USER_ID}@pve
+    RET_CODE=0
+fi
 
 echo "Remove working dir: " ${WORKDIR}
 rm -rf ${WORKDIR}
+
+exit ${RET_CODE}

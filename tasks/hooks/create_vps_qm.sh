@@ -7,8 +7,24 @@ CONFIG_FILE_NAME="kvm/${CONFIG_ID}.shell"
 set -e
 python optconv.py $1 ${CONFIG_FILE_NAME}
 
-# execute task with config
-sudo /bin/bash ./kvm/centos.qm.sh ${CONFIG_FILE_NAME}
+. "${CONFIG_FILE_NAME}"
 
-rm -f ${CONFIG_FILE_NAME}
+PROCESSED_CONFIG=kvm/create_vps_qm/${VMID}.create.$(date +"%s").shell
+
+echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
+if [[ ! -e kvm/create_vps_qm ]]; then
+    mkdir -p kvm/create_vps_qm
+fi
+
+mv ${CONFIG_FILE_NAME} ${PROCESSED_CONFIG}
+
+# execute task with config
+sudo /bin/bash ./kvm/centos.qm.sh ${PROCESSED_CONFIG}
+
 set +e
+
+# After this delimiter all output will be stored in the separate result section - return.
+echo ":RETURN:"
+cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
+
+exit 0
