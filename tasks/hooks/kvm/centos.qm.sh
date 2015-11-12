@@ -114,10 +114,10 @@ fi
 qm start ${VMID}
 
 RET_CODE=0
-echo "Waiting for VM provision more than 30 minutes. Provision failed."
+echo "Waiting for VM creation. Timeout 30 minutes."
 qm wait ${VMID} -timeout 1800
 if [ $? -ne 0 ]; then
-    echo "Too long VPS creation, check the VPS console."
+    echo "Too long VPS creation, check the VPS console. Creation failed."
     qm stop ${VMID}
 
     RET_CODE=100
