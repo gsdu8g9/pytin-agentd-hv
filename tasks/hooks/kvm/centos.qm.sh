@@ -140,6 +140,7 @@ else
     pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
 
     # After this delimiter all output will be stored in the separate result section - return.
+    echo ""
     echo ":RETURN:"
     echo "rootpass: ${ROOTPASS}"
     cat /etc/pve/local/qemu-server/${VMID}.conf | grep net

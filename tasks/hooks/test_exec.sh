@@ -6,6 +6,9 @@ python optconv.py $1 config.shell
 
 cat config.shell
 
+# results are captured after this line
+echo ""
+echo ":RETURN:"
 inc=5
 while (( inc > 0 )); do
     date
