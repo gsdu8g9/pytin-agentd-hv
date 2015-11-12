@@ -41,7 +41,7 @@ def shell_hook(hook_name, options):
             out = process.stdout.readline()
 
             if out:
-                out = out.decode(encoding='utf-8')
+                out = out.decode(encoding='utf-8').strip()
 
             if out == '' and process.poll() is not None:
                 break
