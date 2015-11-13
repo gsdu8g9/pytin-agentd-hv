@@ -49,6 +49,7 @@ DNS2=46.17.46.200
 ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
 ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
+set -e
 pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDDGB}
 vzctl set ${VMID} --hostname ${USER_NAME}.users.justhost.ru --save
 
@@ -63,6 +64,7 @@ vzctl set ${VMID} --onboot yes --save
 vzctl set ${VMID} --cpus ${VCPU} --save
 vzctl start ${VMID}
 vzctl set ${VMID} --userpasswd root:${ROOTPASS} --save
+set +e
 
 if [[ ! -z ${USER_NAME} ]]; then
     pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
