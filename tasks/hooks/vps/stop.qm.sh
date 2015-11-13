@@ -39,7 +39,7 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 if [[ ! -z ${USER_NAME} ]]; then
     pveum acldel /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
 
-    qm set ${VMID} --onboot yes
+    qm set ${VMID} --onboot no
 fi
 
 qm stop ${VMID}
