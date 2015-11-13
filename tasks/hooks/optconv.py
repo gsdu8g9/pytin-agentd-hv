@@ -9,7 +9,12 @@ import traceback
 def convert_to_shell(config_data):
     shell_config_strings = []
     for option_name in config_data:
-        shell_config_strings.append("%s=%s" % (option_name, config_data[option_name]))
+        config_value = config_data[option_name]
+
+        if isinstance(config_value, list):
+            config_value = "(%s)" % " ".join(config_value)
+
+        shell_config_strings.append("%s=%s" % (option_name, config_value))
 
     return "\n".join(shell_config_strings)
 
