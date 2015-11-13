@@ -96,7 +96,7 @@ KICKSTART_FILE="${WORKDIR}/${KICKSTART_FILE_NAME}"
 ISOPATH="/var/lib/vz/template/iso"
 
 ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
-ROOTPASS=${ROOTPASS:-ROOTPASS_GEN}
+ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
 # update KS
 cp -f ${KICKSTART_TEMPLATE} ${KICKSTART_FILE}
@@ -143,7 +143,7 @@ else
     # After this delimiter all output will be stored in the separate result section - return.
     echo ""
     echo ":RETURN:"
-    echo "rootpass: ${ROOTPASS}"
+    echo "rootpass=${ROOTPASS}"
     cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
 
     RET_CODE=0
