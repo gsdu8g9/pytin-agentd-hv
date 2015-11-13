@@ -43,7 +43,7 @@ class CmdbClient(object):
         if extra_options:
             for extra_option_name in extra_options:
                 opt_name = "agentd_%s" % extra_option_name
-                payload['options'].append({'name': opt_name, 'value': extra_options['extra_option_name']})
+                payload['options'].append({'name': opt_name, 'value': extra_options[extra_option_name]})
 
         http_response = requests.patch('%s/v1/resources/%s/' % (self.server_url, cmdb_node_id),
                                        json=payload,

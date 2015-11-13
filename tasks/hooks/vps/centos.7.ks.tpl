@@ -1,5 +1,4 @@
 #version=RHEL7
-logging --host=log.justhost.ru
 
 # System authorization information
 auth --enableshadow --passalgo=sha512
@@ -50,7 +49,7 @@ net-tools
 %end
 
 %pre --log=/root/install-pre.log
-echo "CentOS 7.x box by Justhost.ru. Created `/bin/date`" > /etc/motd
+echo "CentOS 7.x box by PyAgent. Created `/bin/date`" > /etc/motd
 
 echo "nameserver |DNS1|" > /etc/resolv.conf
 echo "nameserver |DNS2|" >> /etc/resolv.conf

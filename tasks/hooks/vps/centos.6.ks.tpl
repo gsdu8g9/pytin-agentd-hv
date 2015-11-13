@@ -1,8 +1,6 @@
 #version=DEVEL
 install
 
-logging --host=log.justhost.ru
-
 url --url=http://mirror.yandex.ru/centos/6/os/x86_64
 lang en_US.UTF-8
 keyboard us
@@ -33,7 +31,7 @@ mc
 %end
 
 %pre --log=/root/install-pre.log
-echo "Linux box by Justhost.ru. Created `/bin/date`" > /etc/motd
+echo "Linux box by PyAgent. Created `/bin/date`" > /etc/motd
 
 echo "nameserver |DNS1|" > /etc/resolv.conf
 echo "nameserver |DNS2|" >> /etc/resolv.conf

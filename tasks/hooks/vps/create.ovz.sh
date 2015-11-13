@@ -18,6 +18,9 @@
 # GW=<gateway_of_the_vm>
 # NETMASK=<netmask_of_the_vm>
 #
+# DNS1
+# DNS2
+#
 # Optional
 # ROOTPASS
 #
@@ -42,14 +45,16 @@ VPS_CONFIG_FILE=$1
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
-DNS1=46.17.40.200
-DNS2=46.17.46.200
-
 ################## do not change #################
 ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
 ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
 set -e
+OVZ_TEMPLATE_FILE=/var/lib/vz/template/cache/${TEMPLATE}.tar.gz
+if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
+    wget -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
+fi
+
 pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDDGB}
 vzctl set ${VMID} --hostname ${USER_NAME}.users.justhost.ru --save
 

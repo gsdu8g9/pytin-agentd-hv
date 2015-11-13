@@ -48,6 +48,9 @@
 # GW=<gateway_of_the_vm>
 # NETMASK=<netmask_of_the_vm>
 #
+# DNS1
+# DNS2
+#
 # Optional
 # ROOTPASS
 
@@ -61,9 +64,6 @@ VPS_CONFIG_FILE=$1
 
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
-
-DNS1=46.17.40.200
-DNS2=46.17.46.200
 
 ################## do not change #################
 SCRIPTDIR=$(pwd)
