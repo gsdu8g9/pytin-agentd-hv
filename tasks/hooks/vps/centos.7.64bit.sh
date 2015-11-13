@@ -29,7 +29,6 @@
 #
 # Required options:
 # CentOS version
-# CENT_OS_VER=7  # 6 or 7
 #
 # Change this parameters
 # USER_ID=<user_id>
@@ -72,6 +71,8 @@ WORKDIR=${SCRIPTDIR}/${VMID}-$(date +"%s")
 
 mkdir -p ${WORKDIR}
 cd ${WORKDIR}
+
+CENT_OS_VER=7
 
 if [ ! -e initrd.img ]
 then

@@ -9,7 +9,7 @@
 
 # convert task config parameters to shell config
 CONFIG_ID=$(date +"%s")
-CONFIG_FILE_NAME="kvm/${CONFIG_ID}.shell"
+CONFIG_FILE_NAME="vps/${CONFIG_ID}.shell"
 
 set -e
 python optconv.py $1 ${CONFIG_FILE_NAME}
@@ -21,18 +21,18 @@ if [[ -z ${SUBCOMMAND} ]]; then
     exit 101
 fi
 
-PROCESSED_CONFIG=kvm/vps_qm_proxy/${VMID}.${SUBCOMMAND}.$(date +"%s").shell
+PROCESSED_CONFIG=vps/vps_cmd_proxy/${SUBCOMMAND}.${VMID}.$(date +"%s").shell
 
 echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
-if [[ ! -e kvm/vps_qm_proxy ]]; then
-    mkdir -p kvm/vps_qm_proxy
+if [[ ! -e vps/vps_cmd_proxy ]]; then
+    mkdir -p vps/vps_cmd_proxy
 fi
 
 mv ${CONFIG_FILE_NAME} ${PROCESSED_CONFIG}
 
 # execute task with config
 echo "Running subcommand: ${SUBCOMMAND}"
-sudo /bin/bash ./kvm/${SUBCOMMAND}.sh ${PROCESSED_CONFIG}
+sudo /bin/bash ./vps/${SUBCOMMAND}.sh ${PROCESSED_CONFIG}
 
 set +e
 
