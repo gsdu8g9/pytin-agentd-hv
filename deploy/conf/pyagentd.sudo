@@ -1,2 +1,2 @@
-Cmnd_Alias  PROVISION = /bin/bash ./kvm/*
+Cmnd_Alias  PROVISION = /bin/bash ./vps/*
 pyagentd ALL = (root) NOPASSWD: PROVISION
