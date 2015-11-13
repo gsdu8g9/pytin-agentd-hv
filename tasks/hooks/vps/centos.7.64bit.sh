@@ -31,7 +31,7 @@
 # CentOS version
 #
 # Change this parameters
-# USER_ID=<user_id>
+# USER_NAME=<user_name>
 # VMID=<id_of_the_vm>
 # VMNAME=<name_of_the_vm>
 #
@@ -136,9 +136,11 @@ else
 
     qm start ${VMID}
 
-    pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
-    pveum useradd u${USER_ID}@pve -comment 'User u${USER_ID}'
-    pveum aclmod /vms/${VMID} -users u${USER_ID}@pve -roles PVE_KVM_User
+    if [[ ! -z ${USER_NAME} ]]; then
+        pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
+        pveum useradd ${USER_NAME}@pve -comment 'PyAgent created ${USER_NAME}'
+        pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
+    fi
 
     # After this delimiter all output will be stored in the separate result section - return.
     echo ""
