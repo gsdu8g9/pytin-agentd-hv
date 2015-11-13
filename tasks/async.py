@@ -70,5 +70,5 @@ def shell_hook(hook_name, options):
 
     return {
         'return': command_return,
-        'code': process.poll()
+        'code': error_code
     }
