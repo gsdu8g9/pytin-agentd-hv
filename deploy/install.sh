@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DISTRIB_DIR=/root/pyagentdist
+DISTRIB_DIR=/root/pyagentd
 APP_TARGET=/apps/pytin-agentd
 
 cd
