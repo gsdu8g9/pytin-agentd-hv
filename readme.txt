@@ -35,13 +35,15 @@ root$ cd /root/pyagentd
 root$ touch /root/pyagentd/agentd.cfg
 
 Загрузить установочный скрипт в /root/pyagentd
-root$ cd /root/pyagentd && wget https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
+root$ cd /root/pyagentd && wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
 
 Выполнить установку
 root$ bash install.sh
 
 Скрипт ставит celery, init.d скрипты запуска celery-демонов, проставляет права на файлы и директории.
 Так же внутри виртуального окружения обновляются зависимости, указанные в requirements.txt.
+
+Открыть ноде доступ на redis.
 
 
 Конфигурация agentd.cfg

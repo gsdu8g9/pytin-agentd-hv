@@ -51,7 +51,7 @@ ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 set -e
 OVZ_TEMPLATE_FILE=/var/lib/vz/template/cache/${TEMPLATE}.tar.gz
 if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
-    wget -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
+    wget --no-check-certificate -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
 fi
 
 pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDDGB}

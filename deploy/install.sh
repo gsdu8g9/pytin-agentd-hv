@@ -5,6 +5,9 @@ APP_TARGET=/apps/pytin-agentd
 
 cd
 
+echo "Prerequisites"
+apt-get -y install unzip
+
 echo "Stopping services"
 /etc/init.d/celeryd stop
 /etc/init.d/celerybeat stop
