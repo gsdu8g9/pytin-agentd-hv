@@ -36,10 +36,9 @@ VPS_CONFIG_FILE=$1
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
+vzctl start ${VMID}
+vzctl set ${VMID} --onboot yes --save
+
 if [[ ! -z ${USER_NAME} ]]; then
     pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
-
-    vzctl set ${VMID} --onboot yes --save
 fi
-
-vzctl start ${VMID}
