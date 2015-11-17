@@ -23,8 +23,7 @@
 #
 # Optional
 # ROOTPASS
-#
-# IP_ADDRS=(ip1 ip2)
+
 
 # debian-7.0-x86
 # ubuntu-14.04-x86
@@ -56,13 +55,8 @@ if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
 fi
 
 pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDDGB}
-vzctl set ${VMID} --hostname ${USER_NAME}.users.justhost.ru --save
-
-for IP in ${IP_ADDRS[*]}
-do
-    vzctl set ${VMID} --ipadd ${IP} --save
-done
-
+vzctl set ${VMID} --hostname ${VMNAME} --save
+vzctl set ${VMID} --ipadd ${IPADDR} --save
 vzctl set ${VMID} --swap 0 --ram ${MEMMB}M --save
 vzctl set ${VMID} --nameserver 46.17.40.200 --nameserver 46.17.46.200 --searchdomain justhost.ru --save
 vzctl set ${VMID} --onboot yes --save
