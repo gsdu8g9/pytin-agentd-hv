@@ -4,6 +4,14 @@ Agent for the Pytin Project
 Установка
 ---------
 
+Если уже установлен Python 2.7.x. Если нет, предварительно необходимо установить его (см. ниже).
+
+Настройка синхронизации времени на ноде
+root$ apt-get -y update
+root$ apt-get -y install wget ntpdate ntp mc
+root$ ntpdate -d ntp1.vniiftri.ru
+root$ service ntp restart
+
 Ставим pip
 root$ cd
 root$ wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
@@ -64,3 +72,18 @@ cmdb-node-id=1
 
 Период обновления параметра хоста agentd_heartbeat в CMDB
 heartbeat-interval-sec=30
+
+
+Установка Python 2.7.9
+----------------------
+
+root$ wget http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
+root$ tar -xzf Python-2.7.9.tgz
+root$ cd Python-2.7.9
+root$ apt-get update
+root$ apt-get install build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libbz2-dev libreadline5-dev libssl-dev libdb-dev
+root$ ./configure --prefix=/usr --enable-shared
+root$ make && make install
+root$ update-alternatives --install /usr/bin/python python /usr/bin/python2.6 20
+root$ update-alternatives --install /usr/bin/python python /usr/bin/python2.7 10
+root$ update-alternatives --set python /usr/bin/python2.6
