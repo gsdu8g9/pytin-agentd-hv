@@ -29,7 +29,7 @@ CELERY_QUEUES = (
     Queue(AGENT_NODE_QUEUE_HEARTBEAT, routing_key=AGENT_NODE_QUEUE_HEARTBEAT),
 )
 
-CELERY_DEFAULT_EXCHANGE_TYPE = 'topic'
+CELERY_DEFAULT_EXCHANGE_TYPE = 'direct'
 CELERY_DEFAULT_QUEUE = "default"
 CELERY_DEFAULT_ROUTING_KEY = "default"
 
@@ -37,7 +37,7 @@ CELERYBEAT_SCHEDULE = {
     'heartbeat': {
         'task': 'tasks.scheduled.heartbeat',
         'schedule': timedelta(seconds=int(AGENT_CONFIG.get('agent', 'heartbeat-interval-sec'))),
-        'options': {'routing_key': AGENT_NODE_QUEUE_HEARTBEAT},
+        'options': {'queue': AGENT_NODE_QUEUE_HEARTBEAT, 'routing_key': AGENT_NODE_QUEUE_HEARTBEAT},
         'args': (
             AGENT_CONFIG.get('agent', 'cmdb-server'),
             AGENT_CONFIG.get('agent', 'cmdb-api-key'),
