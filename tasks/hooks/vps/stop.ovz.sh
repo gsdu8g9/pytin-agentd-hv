@@ -40,5 +40,6 @@ vzctl set ${VMID} --onboot no --save
 vzctl stop ${VMID}
 
 if [[ ! -z ${USER_NAME} ]]; then
-    pveum acldel /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
+    role_name = $(cat /etc/pve/user.cfg | grep ${USER_NAME} | grep "acl:" | cut -d':' -f 5)
+    pveum acldel /vms/${VMID} -users ${USER_NAME}@pve -roles ${role_name}
 fi

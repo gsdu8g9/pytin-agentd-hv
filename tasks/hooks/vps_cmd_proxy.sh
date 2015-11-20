@@ -21,7 +21,7 @@ if [[ -z ${SUBCOMMAND} ]]; then
     exit 101
 fi
 
-PROCESSED_CONFIG=vps/vps_cmd_proxy/${SUBCOMMAND}.${VMID}.$(date +"%s").shell
+PROCESSED_CONFIG=vps/vps_cmd_proxy/${VMID}.${SUBCOMMAND}.$(date +"%s").shell
 
 echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
 if [[ ! -e vps/vps_cmd_proxy ]]; then

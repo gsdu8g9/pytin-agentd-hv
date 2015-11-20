@@ -4,21 +4,25 @@ Agent for the Pytin Project
 Установка
 ---------
 
-Если уже установлен Python 2.7.x. Если нет, предварительно необходимо установить его (см. ниже).
+root$ python -V
+Если Python 2.7.x не установлен, предварительно необходимо установить его (см. ниже).
+
+Установка необходимых компонентов
+root$ apt-get -y update
+root$ apt-get -y install unzip sudo wget mc
 
 Настройка синхронизации времени на ноде
-root$ apt-get -y update
-root$ apt-get -y install wget ntpdate ntp mc
+root$ apt-get -y install ntpdate ntp
 root$ ntpdate -d ntp1.vniiftri.ru
 root$ service ntp restart
 
-Ставим pip
+Ставим pip для Python 2.7.x
 root$ cd
 root$ wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
-root$ python get-pip.py
+root$ python2.7 get-pip.py
 
 Ставим virtualenv для управления окружениями
-root$ pip install virtualenv
+root$ pip2.7 install virtualenv
 
 Создаем корень проекта
 root$ mkdir -p /apps/pytin-agentd
@@ -40,7 +44,7 @@ root$ cd /root/pyagentd
 
 Создать файл конфигурации. За основу взять agentd.sample.cfg из дистрибутива. Этот файл
 будет копироваться по месту установки агента при обновлении.
-root$ touch /root/pyagentd/agentd.cfg
+root$ mcedit /root/pyagentd/agentd.cfg
 
 Загрузить установочный скрипт в /root/pyagentd
 root$ cd /root/pyagentd && wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
@@ -80,8 +84,8 @@ heartbeat-interval-sec=30
 root$ wget http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
 root$ tar -xzf Python-2.7.9.tgz
 root$ cd Python-2.7.9
-root$ apt-get update
-root$ apt-get install build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libbz2-dev libreadline5-dev libssl-dev libdb-dev
+root$ apt-get -y update
+root$ apt-get -y install build-essential libsqlite3-dev zlib1g-dev libncurses5-dev libgdbm-dev libbz2-dev libreadline5-dev libssl-dev libdb-dev
 root$ ./configure --prefix=/usr --enable-shared
 root$ make && make install
 root$ update-alternatives --install /usr/bin/python python /usr/bin/python2.6 20
