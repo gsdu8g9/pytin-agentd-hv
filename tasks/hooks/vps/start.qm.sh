@@ -40,5 +40,5 @@ qm start ${VMID}
 qm set ${VMID} --onboot yes
 
 if [[ ! -z ${USER_NAME} ]]; then
-    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
+    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVEVMUser
 fi

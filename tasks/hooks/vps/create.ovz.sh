@@ -66,9 +66,8 @@ vzctl set ${VMID} --userpasswd root:${ROOTPASS} --save
 set +e
 
 if [[ ! -z ${USER_NAME} ]]; then
-    pveum roleadd PVE_KVM_User -privs "VM.PowerMgmt VM.Audit VM.Console VM.Snapshot VM.Backup"
     pveum useradd ${USER_NAME}@pve -comment 'PyAgent created ${USER_NAME}'
-    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVE_KVM_User
+    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVEVMUser
 fi
 
 # After this delimiter all output will be stored in the separate result section - return.

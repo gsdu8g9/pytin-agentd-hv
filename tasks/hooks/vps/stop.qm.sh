@@ -40,6 +40,6 @@ qm set ${VMID} --onboot no
 qm stop ${VMID}
 
 if [[ ! -z ${USER_NAME} ]]; then
-    role_name = $(cat /etc/pve/user.cfg | grep ${USER_NAME} | grep "acl:" | cut -d':' -f 5)
+    role_name=$(cat /etc/pve/user.cfg | grep ${USER_NAME} | grep "acl:" | cut -d':' -f 5)
     pveum acldel /vms/${VMID} -users ${USER_NAME}@pve -roles ${role_name}
 fi
