@@ -24,7 +24,8 @@
 # Description:
 #   Stop KVM virtual machine
 #
-
+# Required parameters
+# VMID
 
 if [[ -z $1 ]]; then
     echo "Config file must be specified."
@@ -39,7 +40,7 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 vzctl set ${VMID} --onboot no --save
 vzctl stop ${VMID}
 
-if [[ ! -z ${USER_NAME} ]]; then
-    role_name=$(cat /etc/pve/user.cfg | grep ${USER_NAME} | grep "acl:" | cut -d':' -f 5)
-    pveum acldel /vms/${VMID} -users ${USER_NAME}@pve -roles ${role_name}
+if [[ ! -z ${USER} ]]; then
+    role_name=$(cat /etc/pve/user.cfg | grep ${USER} | grep "acl:" | cut -d':' -f 5)
+    pveum acldel /vms/${VMID} -users ${USER}@pve -roles ${role_name}
 fi

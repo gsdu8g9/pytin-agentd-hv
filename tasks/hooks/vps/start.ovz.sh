@@ -24,7 +24,8 @@
 # Description:
 #   Stop KVM virtual machine
 #
-
+# Required parameters
+# VMID
 
 if [[ -z $1 ]]; then
     echo "Config file must be specified."
@@ -39,6 +40,6 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 vzctl start ${VMID}
 vzctl set ${VMID} --onboot yes --save
 
-if [[ ! -z ${USER_NAME} ]]; then
-    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVEVMUser
+if [[ ! -z ${USER} ]]; then
+    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
 fi

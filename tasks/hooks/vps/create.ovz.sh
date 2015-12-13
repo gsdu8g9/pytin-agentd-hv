@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
 # Change this parameters
-# USER_NAME=<user_name>
+# USER=<USER>
 # VMID=<id_of_the_vm>
-# VMNAME=<name_of_the_vm>
+# HOSTNAME=<name_of_the_vm>
 #
 # HDD size in Gb
-# HDDGB=5
+# HDD=5
 #
 # RAM size in Gb
-# MEMMB=1024
+# MEM=1024
 #
 # CPU cores
-# VCPU=1
+# CPU=1
 #
-# IPADDR=<ip_of_the_vm>
-# GW=<gateway_of_the_vm>
+# IP=<ip_of_the_vm>
+# GATEWAY=<gateway_of_the_vm>
 # NETMASK=<netmask_of_the_vm>
 #
 # DNS1
@@ -23,15 +23,6 @@
 #
 # Optional
 # ROOTPASS
-
-
-# debian-7.0-x86
-# ubuntu-14.04-x86
-# ubuntu-14.04-x86_64
-# centos-6-x86
-# centos-6-x86_64
-# centos-7-x86_64
-# centos-6-x86_64-minimal
 
 
 if [[ -z $1 ]]; then
@@ -54,23 +45,23 @@ if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
     wget --no-check-certificate -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
 fi
 
-pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDDGB}
-vzctl set ${VMID} --hostname ${VMNAME} --save
-vzctl set ${VMID} --ipadd ${IPADDR} --save
-vzctl set ${VMID} --swap 0 --ram ${MEMMB}M --save
-vzctl set ${VMID} --nameserver 46.17.40.200 --nameserver 46.17.46.200 --searchdomain justhost.ru --save
+pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDD}
+vzctl set ${VMID} --hostname ${HOSTNAME} --save
+vzctl set ${VMID} --ipadd ${IP} --save
+vzctl set ${VMID} --swap 0 --ram ${RAM}M --save
+vzctl set ${VMID} --nameserver ${DNS1} --nameserver ${DNS2} --searchdomain justhost.ru --save
 vzctl set ${VMID} --onboot yes --save
-vzctl set ${VMID} --cpus ${VCPU} --save
+vzctl set ${VMID} --cpus ${CPU} --save
 vzctl start ${VMID}
 vzctl set ${VMID} --userpasswd root:${ROOTPASS} --save
 set +e
 
-if [[ ! -z ${USER_NAME} ]]; then
-    pveum useradd ${USER_NAME}@pve -comment 'PyAgent created ${USER_NAME}'
-    pveum aclmod /vms/${VMID} -users ${USER_NAME}@pve -roles PVEVMUser
+if [[ ! -z ${USER} ]]; then
+    pveum useradd ${USER}@pve -comment 'PyAgent created ${USER}'
+    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
 fi
 
 # After this delimiter all output will be stored in the separate result section - return.
 echo ""
 echo ":RETURN:"
-echo "rootpass=${ROOTPASS}"
+echo "ROOTPASS=${ROOTPASS}"

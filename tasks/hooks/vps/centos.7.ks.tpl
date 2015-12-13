@@ -19,7 +19,7 @@ keyboard us
 timezone --utc Europe/Moscow
 
 # Network information
-network --onboot yes --bootproto static --ip |IPADDR| --netmask |NETMASK| --gateway |GW| --noipv6 --nameserver |DNS1| --hostname=|HOSTNAME|
+network --onboot yes --bootproto static --ip |IP| --netmask |NETMASK| --gateway |GATEWAY| --noipv6 --nameserver |DNS1| --hostname=|HOSTNAME|
 
 # Root password
 rootpw  |ROOTPASS|

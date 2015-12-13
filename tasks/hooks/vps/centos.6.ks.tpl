@@ -4,7 +4,7 @@ install
 url --url=http://mirror.yandex.ru/centos/6/os/x86_64
 lang en_US.UTF-8
 keyboard us
-network --onboot yes --bootproto static --ip |IPADDR| --netmask |NETMASK| --gateway |GW| --noipv6 --nameserver |DNS1| --hostname=|HOSTNAME|
+network --onboot yes --bootproto static --ip |IP| --netmask |NETMASK| --gateway |GATEWAY| --noipv6 --nameserver |DNS1| --hostname=|HOSTNAME|
 rootpw  |ROOTPASS|
 firewall --service=ssh
 authconfig --enableshadow --passalgo=sha512

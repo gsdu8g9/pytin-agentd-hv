@@ -22,10 +22,40 @@
 #
 #
 # Description:
-#   Stop KVM virtual machine
+#   Create KVM virtual machine with kickstarter file from the command line.
 #
-# Required parameters
-# VMID
+# Requirements:
+#   genisoimage, qemu
+#
+# Required options:
+# CentOS version
+#
+# Change this parameters
+# USER=<USER>
+# VMID=<id_of_the_vm>
+# HOSTNAME=<name_of_the_vm>
+#
+# HDD size in Gb
+# HDD=5
+#
+# RAM size in Gb
+# RAM=1024
+#
+# CPU cores
+# CPU=1
+#
+# IP=<ip_of_the_vm>
+# GATEWAY=<gateway_of_the_vm>
+# NETMASK=<netmask_of_the_vm>
+#
+# DNS1
+# DNS2
+#
+# Optional
+# ROOTPASS
+
+
+echo "Passed $1"
 
 if [[ -z $1 ]]; then
     echo "Config file must be specified."
@@ -37,9 +67,21 @@ VPS_CONFIG_FILE=$1
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
-qm start ${VMID}
-qm set ${VMID} --onboot yes
 
-if [[ ! -z ${USER} ]]; then
-    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
-fi
+# results are captured after this line
+echo ""
+echo ":RETURN:"
+cat ${VPS_CONFIG_FILE}
+echo ""
+ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
+ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
+echo "ROOTPASS=${ROOTPASS}"
+
+inc=5
+while (( inc > 0 )); do
+    echo "date${inc}=$(date)"
+    sleep 1
+    inc=$((inc-1))
+done
+
+exit 0

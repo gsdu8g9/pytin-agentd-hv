@@ -9,30 +9,35 @@
 
 # convert task config parameters to shell config
 CONFIG_ID=$(date +"%s")
-CONFIG_FILE_NAME="vps/${CONFIG_ID}.shell"
+TMP_CONFIG_FILE_NAME="runtime/${CONFIG_ID}.shell"
 
 set -e
-python optconv.py $1 ${CONFIG_FILE_NAME}
+python optconv.py $1 ${TMP_CONFIG_FILE_NAME}
 
-. "${CONFIG_FILE_NAME}"
+. "${TMP_CONFIG_FILE_NAME}"
 
 if [[ -z ${SUBCOMMAND} ]]; then
     echo "Missing SUBCOMMAND"
     exit 101
 fi
 
-PROCESSED_CONFIG=vps/vps_cmd_proxy/${VMID}.${SUBCOMMAND}.$(date +"%s").shell
+ARCHIVED_CONFIG=runtime/vps_cmd_proxy/${VMID}.${SUBCOMMAND}.$(date +"%s").shell
 
-echo "Process config ${CONFIG_FILE_NAME} -> ${PROCESSED_CONFIG}"
-if [[ ! -e vps/vps_cmd_proxy ]]; then
-    mkdir -p vps/vps_cmd_proxy
+echo "Process config ${TMP_CONFIG_FILE_NAME} -> ${ARCHIVED_CONFIG}"
+if [[ ! -e runtime/vps_cmd_proxy ]]; then
+    mkdir -p runtime/vps_cmd_proxy
 fi
 
-mv ${CONFIG_FILE_NAME} ${PROCESSED_CONFIG}
+mv ${TMP_CONFIG_FILE_NAME} ${ARCHIVED_CONFIG}
 
 # execute task with config
 echo "Running subcommand: ${SUBCOMMAND}"
-sudo /bin/bash ./vps/${SUBCOMMAND}.sh ${PROCESSED_CONFIG}
+
+if [ -z ${DEBUG} ]; then
+    sudo /bin/bash ./vps/${SUBCOMMAND}.sh ${ARCHIVED_CONFIG}
+else
+    /bin/bash ./vps/${SUBCOMMAND}.sh ${ARCHIVED_CONFIG}
+fi
 
 set +e
 

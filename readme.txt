@@ -1,85 +1,87 @@
 Agent for the Pytin Project
 ===========================
 
-Установка
----------
+Installation
+------------
 
 root$ python -V
-Если Python 2.7.x не установлен, предварительно необходимо установить его (см. ниже).
+If Python 2.7.x is not available, you must install it first.
 
-Установка необходимых компонентов
+Prerequisites
 root$ apt-get -y update
 root$ apt-get -y install unzip sudo wget mc
 
-Настройка синхронизации времени на ноде
+Time sync
 root$ apt-get -y install ntpdate ntp
 root$ ntpdate -d ntp1.vniiftri.ru
 root$ service ntp restart
 
-Ставим pip для Python 2.7.x
+Install pip for the Python 2.7.x
 root$ cd
 root$ wget --no-check-certificate https://bootstrap.pypa.io/get-pip.py
 root$ python2.7 get-pip.py
 
-Ставим virtualenv для управления окружениями
+Install virtualenv to separate environments
 root$ pip2.7 install virtualenv
 
-Создаем корень проекта
+Create App root
 root$ mkdir -p /apps/pytin-agentd
 root$ cd /apps/pytin-agentd
 
-Создать пользователя
+Create user
 root$ useradd -m -s /bin/bash pyagentd
 root$ chown -R pyagentd:pyagentd /apps/pytin-agentd
 root$ su pyagentd
 
-Создаем окружение
+Create environment
 pyagentd$ virtualenv /apps/pytin-agentd/venv
 pyagentd$ exit
 
-Под root, создать папку /root/pyagentd
+Under root, create /root/pyagentd to store production configs.
 root$ mkdir -p /root/pyagentd
 root$ chmod 0700 /root/pyagentd
 root$ cd /root/pyagentd
 
-Создать файл конфигурации. За основу взять agentd.sample.cfg из дистрибутива. Этот файл
-будет копироваться по месту установки агента при обновлении.
+Create config file agentd.cfg based on agentd.sample.cfg. This file will be used during production process.
 root$ mcedit /root/pyagentd/agentd.cfg
 
-Загрузить установочный скрипт в /root/pyagentd
+Download deployment script to /root/pyagentd
 root$ cd /root/pyagentd && wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin-agentd-hv/master/deploy/install.sh
 
-Выполнить установку
+Perform install
 root$ bash install.sh
 
-Скрипт ставит celery, init.d скрипты запуска celery-демонов, проставляет права на файлы и директории.
-Так же внутри виртуального окружения обновляются зависимости, указанные в requirements.txt.
+This script will install:
+* celery
+* init.d scripts to control celery-daemons
+* Set directory and files settings
+* Will install dependencies to the environment, listed in requirements.txt.
 
-Открыть ноде доступ на redis.
+Open access to redis server for the agent.
 
 
-Конфигурация agentd.cfg
------------------------
+agentd.cfg
+----------
 
-Транспорт для сообщений
+Transport for the messages
 broker = redis://127.0.0.1:8888/1
 
-Хранение результатов и отслеживание статусов задач
+Store results and track task states
 backend = redis://127.0.0.1:8888/2
 
-Хост Pytin CMDB с запущенным API-сервером
+Pytin CMDB host with running API-server
 cmdb-server=http://127.0.0.1:8080
 cmdb-api-key=ksfakashfkgasddhjfgashjfgajhsgf
 
-ID ноды в CMDB, соответствующей текущему хосту, на котором установлен агент
+ID of the current hypervisor node in CMDB
 cmdb-node-id=1
 
-Период обновления параметра хоста agentd_heartbeat в CMDB
+Heartbeat update interval of the Hypervisor node
 heartbeat-interval-sec=30
 
 
-Установка Python 2.7.9
-----------------------
+Install Python 2.7.9
+--------------------
 
 root$ wget http://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz
 root$ tar -xzf Python-2.7.9.tgz
@@ -91,3 +93,32 @@ root$ make && make install
 root$ update-alternatives --install /usr/bin/python python /usr/bin/python2.6 20
 root$ update-alternatives --install /usr/bin/python python /usr/bin/python2.7 10
 root$ update-alternatives --set python /usr/bin/python2.6
+
+
+Templates config
+----------------
+
+template: template name used to create VPS.
+          It is in form: <driver>.param1.param2..paramN (kvm.centos.6.64.directadmin)
+            driver: method of provisioning. Different drivers supports
+                    different templates and provisioning depth.
+                    Drivers can work with different virtualization technologies.
+
+Supported drivers and templates
+-------------------------------
+
+Driver: kvm
+-----------
+kvm.centos.6.64
+kvm.centos.7.64
+
+
+Driver: openvz
+--------------
+debian-7.0-x86
+ubuntu-14.04-x86
+ubuntu-14.04-x86_64
+centos-6-x86
+centos-6-x86_64
+centos-7-x86_64
+centos-6-x86_64-minimal
