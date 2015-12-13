@@ -84,12 +84,12 @@ fi
 
 echo "Update KS file:"
 KICKSTART_TEMPLATE_NAME="centos.7.ks.tpl"
-wget https://raw.githubusercontent.com/servancho/pytin/master/scripts/centos/kickstart/virt/kvm/${KICKSTART_TEMPLATE_NAME}
-
 KICKSTART_FILE_NAME="centos.ks"
 
 KICKSTART_TEMPLATE="${WORKDIR}/${KICKSTART_TEMPLATE_NAME}"
 KICKSTART_FILE="${WORKDIR}/${KICKSTART_FILE_NAME}"
+
+cp "${SCRIPTDIR}/${KICKSTART_TEMPLATE_NAME}" "${KICKSTART_TEMPLATE}"
 
 ISOPATH="/var/lib/vz/template/iso"
 

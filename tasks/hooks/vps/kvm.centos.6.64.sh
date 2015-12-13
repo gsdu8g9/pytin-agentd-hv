@@ -84,12 +84,12 @@ fi
 
 echo "Update KS file:"
 KICKSTART_TEMPLATE_NAME="centos.6.ks.tpl"
-wget https://raw.githubusercontent.com/servancho/pytin/master/scripts/centos/kickstart/virt/kvm/${KICKSTART_TEMPLATE_NAME}
-
 KICKSTART_FILE_NAME="centos.ks"
 
 KICKSTART_TEMPLATE="${WORKDIR}/${KICKSTART_TEMPLATE_NAME}"
 KICKSTART_FILE="${WORKDIR}/${KICKSTART_FILE_NAME}"
+
+cp "${SCRIPTDIR}/${KICKSTART_TEMPLATE_NAME}" "${KICKSTART_TEMPLATE}"
 
 ISOPATH="/var/lib/vz/template/iso"
 
@@ -113,7 +113,7 @@ perl -pi -e "s/\|ROOTPASS\|/${ROOTPASS}/g" ${KICKSTART_FILE}
 genisoimage -o ksboot.iso ${KICKSTART_FILE}
 mv ksboot.iso ${ISOPATH}/
 
-qm create ${VMID} --args "-append ks=cdrom:/${KICKSTART_FILE_NAME} -kernel ${WORKDIR}/vmlinuz -initrd ${WORKDIR}/initrd.img" --ide2 local:iso/ksboot.iso,media=cdrom --name ${HOSTNAME} --net0 rtl8139,rate=50,bridge=vmbr0 --virtio0 local:${HDD},format=qcow2,cache=writeback,mbps_rd=5,mbps_wr=5 --bootdisk virtio0 --ostype l26 --memory ${RAM} --onboot yes --cores ${VCPU} --sockets 1
+qm create ${VMID} --args "-append ks=cdrom:/${KICKSTART_FILE_NAME} -kernel ${WORKDIR}/vmlinuz -initrd ${WORKDIR}/initrd.img" --ide2 local:iso/ksboot.iso,media=cdrom --name ${HOSTNAME} --net0 rtl8139,rate=50,bridge=vmbr0 --virtio0 local:${HDD},format=qcow2,cache=writeback,mbps_rd=5,mbps_wr=5 --bootdisk virtio0 --ostype l26 --memory ${RAM} --onboot yes --cores ${CPU} --sockets 1
 qm start ${VMID}
 
 RET_CODE=0
