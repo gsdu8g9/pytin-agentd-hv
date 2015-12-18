@@ -128,7 +128,7 @@ class ShellKVMDriver(CommandDriver):
 
 
 class ShellOpenVZDriver(CommandDriver):
-    CREATE_CMD = 'create.ovz'
+    CREATE_CMD = 'openvz.create'
     START_CMD = 'start.ovz'
     STOP_CMD = 'stop.ovz'
 

@@ -40,6 +40,10 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 vzctl start ${VMID}
 vzctl set ${VMID} --onboot yes --save
 
+RET_CODE=$?
+
 if [[ ! -z ${USER} ]]; then
-    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    pveum aclmod /vms/${VMID} -users u${USER}@pve -roles PVEVMUser
 fi
+
+exit ${RET_CODE}

@@ -104,6 +104,7 @@ template: template name used to create VPS.
                     different templates and provisioning depth.
                     Drivers can work with different virtualization technologies.
 
+
 Supported drivers and templates
 -------------------------------
 

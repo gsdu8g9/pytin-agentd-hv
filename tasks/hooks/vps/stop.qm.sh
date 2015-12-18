@@ -40,7 +40,11 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 qm set ${VMID} --onboot no
 qm stop ${VMID}
 
+RET_CODE=$?
+
 if [[ ! -z ${USER} ]]; then
-    role_name=$(cat /etc/pve/user.cfg | grep ${USER} | grep "acl:" | cut -d':' -f 5)
-    pveum acldel /vms/${VMID} -users ${USER}@pve -roles ${role_name}
+    role_name=$(cat /etc/pve/user.cfg | grep ${USER} | grep "acl:" | cut -d':' -f 5 | head -n 1)
+    pveum acldel /vms/${VMID} -users u${USER}@pve -roles ${role_name}
 fi
+
+exit ${RET_CODE}
