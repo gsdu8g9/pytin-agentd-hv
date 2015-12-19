@@ -35,8 +35,9 @@ def vps_create(options):
     assert options
     assert 'template' in options
 
-    (driver, tpl_name) = options['template'].split('.', 1)
-    options['driver'] = driver
+    if 'driver' not in options:
+        (driver, tpl_name) = options['template'].split('.', 1)
+        options['driver'] = driver
 
     return _get_driver_impl(options).create(vps_create, options)
 
