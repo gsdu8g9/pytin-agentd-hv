@@ -132,7 +132,7 @@ else
     qm start ${VMID}
 
     if [[ ! -z ${USER} ]]; then
-        pveum useradd ${USER}@pve -comment 'PyAgent created ${USER}'
+        pveum useradd ${USER}@pve -comment "PyAgent created ${USER}"
         pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
     fi
 
