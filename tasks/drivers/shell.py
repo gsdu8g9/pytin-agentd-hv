@@ -48,7 +48,7 @@ def shell_hook(caller_task, hook_name, options):
                 logger.info(out)
 
                 out_line = out.strip().encode(encoding='utf-8')
-                caller_task.update_state(state='PROGRESS', meta={'line': out_line})
+                caller_task.update_state(state='PROGRESS', meta={'stdout': out_line})
 
                 if store_return:
                     parts = out_line.split('=', 1)
