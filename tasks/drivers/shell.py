@@ -151,7 +151,9 @@ class ShellOpenVZDriver(CommandDriver):
             shell_proxy_options[option.upper()] = options[option]
 
         shell_proxy_options['SUBCOMMAND'] = ShellOpenVZDriver.CREATE_CMD
-        shell_proxy_options['TEMPLATE'] = options['template']
+
+        driver, tpl_name = options['template'].split('.', 1)
+        shell_proxy_options['TEMPLATE'] = tpl_name
 
         return shell_hook(caller_task, 'vps_cmd_proxy', shell_proxy_options)
 

@@ -110,16 +110,17 @@ Supported drivers and templates
 
 Driver: kvm
 -----------
+kvm.empty
 kvm.centos.6.64
 kvm.centos.7.64
 
 
 Driver: openvz
 --------------
-debian-7.0-x86
-ubuntu-14.04-x86
-ubuntu-14.04-x86_64
-centos-6-x86
-centos-6-x86_64
-centos-7-x86_64
-centos-6-x86_64-minimal
+openvz.debian-7.0-x86
+openvz.ubuntu-14.04-x86
+openvz.ubuntu-14.04-x86_64
+openvz.centos-6-x86
+openvz.centos-6-x86_64
+openvz.centos-7-x86_64
+openvz.centos-6-x86_64-minimal
