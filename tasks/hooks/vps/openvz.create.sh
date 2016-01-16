@@ -52,8 +52,8 @@ vzctl set ${VMID} --swap 0 --ram ${RAM}M --save
 vzctl set ${VMID} --nameserver ${DNS1} --nameserver ${DNS2} --searchdomain justhost.ru --save
 vzctl set ${VMID} --onboot yes --save
 vzctl set ${VMID} --cpus ${CPU} --save
-vzctl start ${VMID}
 vzctl set ${VMID} --userpasswd root:${ROOTPASS} --save
+vzctl start ${VMID}
 set +e
 
 RET_CODE=$?
