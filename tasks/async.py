@@ -3,13 +3,14 @@ from __future__ import unicode_literals
 from celery.utils.log import get_task_logger
 
 from agentd import app
-from tasks.drivers.shell import ShellKVMDriver, ShellOpenVZDriver
+from tasks.drivers import VpsTemplate
+from tasks.drivers.pvesh import PveshKVMDriver, PveshOpenVZDriver
 
 logger = get_task_logger(__name__)
 
 DRIVERS = {
-    'kvm': ShellKVMDriver(),
-    'openvz': ShellOpenVZDriver()
+    'kvm': PveshKVMDriver(),
+    'openvz': PveshOpenVZDriver(),
 }
 
 
@@ -32,12 +33,18 @@ def _get_driver_impl(options):
 
 @app.task
 def vps_create(options):
+    """
+    Pass parameters to create VPS. Select driver that is able to create selected template.
+    Every driver supports different subsets of templates.
+    :param options:
+    :return:
+    """
     assert options
     assert 'template' in options
 
     if 'driver' not in options:
-        (driver, tpl_name) = options['template'].split('.', 1)
-        options['driver'] = driver
+        vps_tpl = VpsTemplate(options['template'])
+        options['driver'] = vps_tpl.driver
 
     return _get_driver_impl(options).create(vps_create, options)
 

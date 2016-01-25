@@ -21,6 +21,8 @@
 # DNS1
 # DNS2
 #
+# TEMPLATE
+#
 # Optional
 # ROOTPASS
 
@@ -45,22 +47,16 @@ if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
     wget --no-check-certificate -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
 fi
 
-pvectl create ${VMID} /var/lib/vz/template/cache/${TEMPLATE}.tar.gz -disk ${HDD}
-vzctl set ${VMID} --hostname ${HOSTNAME} --save
-vzctl set ${VMID} --ipadd ${IP} --save
-vzctl set ${VMID} --swap 0 --ram ${RAM}M --save
-vzctl set ${VMID} --nameserver ${DNS1} --nameserver ${DNS2} --searchdomain justhost.ru --save
-vzctl set ${VMID} --onboot yes --save
-vzctl set ${VMID} --cpus ${CPU} --save
-vzctl set ${VMID} --userpasswd root:${ROOTPASS} --save
-vzctl start ${VMID}
+NODENAME=$(hostname | cut -d'.' -f 1)
+pvesh create /nodes/${NODENAME}/openvz -vmid ${VMID} -ostemplate "local:vztmpl/${TEMPLATE}.tar.gz" -hostname ${HOSTNAME} -disk ${HDD} -swap 0 -memory ${RAM} -cpus ${CPU} -onboot yes -ip_address ${IP} -nameserver "${DNS1},${DNS2}"
+pvesh create /nodes/${NODENAME}/openvz/${VMID}/status/start
 set +e
 
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    pveum useradd ${USER}@pve -comment "PyAgent created ${USER}"
-    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    pvesh create /access/users -userid "${USER}@pve" -password ${ROOTPASS} -comment "PyAgent created ${USER}"
+    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
 fi
 
 # After this delimiter all output will be stored in the separate result section - return.

@@ -37,14 +37,14 @@ VPS_CONFIG_FILE=$1
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
-vzctl set ${VMID} --onboot no --save
-vzctl stop ${VMID}
+NODENAME=$(hostname | cut -d'.' -f 1)
+pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/stop
+pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -onboot no
 
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    role_name=$(cat /etc/pve/user.cfg | grep ${USER} | grep "acl:" | cut -d':' -f 5 | head -n 1)
-    pveum acldel /vms/${VMID} -users ${USER}@pve -roles ${role_name}
+    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser -delete yes
 fi
 
 exit ${RET_CODE}

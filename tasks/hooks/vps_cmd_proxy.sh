@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# Shell Hook для создания VPS. Может служить для преобразования параметров и передачи управления
-# специализированному скрипту.
+# Shell command proxy. Used to call specialized scripts.
 #
-# Параметры передаются в этот скрипт через файл $1, где они находятся в формате JSON.
-# После этого параметры преобразуются и передаются специальным скриптам для создания VPS.
-# После строки :RETURN: в stdout весь вывод скрипта возвратится с ответом для последующего парсинга.
+# Parameters are passed to this scripts via JSON file $1. Then this file is parsed
+# and all parameters are passed to the shell.
+#
+# Output data is passes as key=value strings to the stdout after the ":RETURN:" placeholder.
 
 # convert task config parameters to shell config
 CONFIG_ID=$(date +"%s")

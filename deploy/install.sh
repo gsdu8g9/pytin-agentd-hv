@@ -29,6 +29,7 @@ cd ${APP_TARGET}
 source ./venv/bin/activate
 
 echo "Update dependencies"
+pip install --upgrade pip
 pip install -r requirements.txt
 
 echo "Exit virtual environment"

@@ -114,6 +114,29 @@ kvm.empty
 kvm.centos.6.64
 kvm.centos.7.64
 
+kvm.centos.6.64.boot.template
+kvm.centos.6.64.directadmin.boot.template
+kvm.centos.6.64.directadmin.template
+kvm.centos.6.64.template
+kvm.centos.6.64.vesta.boot.template
+kvm.centos.6.64.vesta.template
+kvm.centos.7.64.boot.template
+kvm.centos.7.64.template
+kvm.debian.7.64.boot.template
+kvm.debian.7.64.template
+kvm.debian.8.64.boot.template
+kvm.debian.8.64.template
+kvm.ubuntu.14.04.64.boot.template
+kvm.ubuntu.14.04.64.en.raid.boot.template
+kvm.ubuntu.14.04.64.en.raid.template
+kvm.ubuntu.14.04.64.template
+kvm.ubuntu.15.10.64.boot.template
+kvm.ubuntu.15.10.64.en.boot.template
+kvm.ubuntu.15.10.64.en.raid.boot.template
+kvm.ubuntu.15.10.64.en.raid.template
+kvm.ubuntu.15.10.64.raid.en.template
+kvm.ubuntu.15.10.64.raid.template
+
 
 Driver: openvz
 --------------
@@ -124,3 +147,13 @@ openvz.centos-6-x86
 openvz.centos-6-x86_64
 openvz.centos-7-x86_64
 openvz.centos-6-x86_64-minimal
+
+
+Testing new templates
+---------------------
+
+* KVM
+sudo /bin/bash ./vps/kvm.pvesh.create.sh config-name.shell
+
+* OpenVZ
+sudo /bin/bash ./vps/openvz.pvesh.create.sh config-name.shell

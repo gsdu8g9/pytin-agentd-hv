@@ -37,13 +37,14 @@ VPS_CONFIG_FILE=$1
 echo "Loading config from " ${VPS_CONFIG_FILE}
 . "${VPS_CONFIG_FILE}"
 
-qm start ${VMID}
-qm set ${VMID} --onboot yes
+NODENAME=$(hostname | cut -d'.' -f 1)
+pvesh set /nodes/${NODENAME}/openvz/${VMID}/config -onboot yes
+pvesh create /nodes/${NODENAME}/openvz/${VMID}/status/start
 
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    pveum aclmod /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
 fi
 
 exit ${RET_CODE}
