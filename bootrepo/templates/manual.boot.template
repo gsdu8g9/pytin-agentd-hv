@@ -1,5 +1,5 @@
 #!ipxe
 
 echo Manual install
-echo Boot
-boot
+echo PowerOff
+poweroff
