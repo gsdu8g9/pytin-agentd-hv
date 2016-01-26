@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import socket
 
 from celery.utils.log import get_task_logger
 from jinja2 import Environment, FileSystemLoader
@@ -108,11 +109,22 @@ class PveshKVMDriver(PveshDriver):
         return shell_hook(caller_task, 'vps_cmd_proxy', shell_proxy_options)
 
     def _render_template(self, template_name, rendered_name, options):
+        """
+        Render jinja2 template (boot and provision) PXE files to boot and provision KVM system.
+        Rendered files are stored in the Flask static root directory to be used during provisioning process.
+
+        :param template_name: Name of the template file.
+        :param rendered_name: Name of the rendered template.
+        :param options: Options to replace in the template.
+        :return:
+        """
         assert template_name
 
         fs_template_path = os.path.join(bootrepo.TEMPLATES_DIR, template_name)
         if not os.path.exists(fs_template_path):
             raise IOError('Template %s does not exists.' % fs_template_path)
+
+        options['nodename'] = bootrepo.NODENAME
 
         rendered_fs_template_path = os.path.join(bootrepo.STATIC_FILES_DIR, rendered_name)
         j2_env = Environment(loader=FileSystemLoader(bootrepo.TEMPLATES_DIR), trim_blocks=True)

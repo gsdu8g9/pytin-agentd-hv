@@ -48,14 +48,17 @@ cd ${WORKDIR}
 ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
 ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
+echo "Starting Flask"
 
+set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
 DISK_FILE_NAME=vm-${VMID}-disk-1.qcow2
 pvesh create /nodes/${NODENAME}/storage/local/content -filename ${DISK_FILE_NAME} -format qcow2 -size ${HDD}G -vmid ${VMID}
 pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name ${HOSTNAME} -storage 'local' -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'rtl8139,rate=100,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
 
-pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/ipxe.lkrn -append 'dhcp && chain http://127.0.0.1:5000/static/${VMID}.boot.pxe'"
+pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/ipxe.lkrn -append 'dhcp && chain http://${NODENAME}:5000/static/${VMID}.boot.pxe'"
 pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
+set +e
 
 # waiting for the VPS to shutdown
 qm wait ${VMID} -timeout 1800
