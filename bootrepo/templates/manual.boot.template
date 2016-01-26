@@ -1,0 +1,5 @@
+#!ipxe
+
+echo Manual install
+echo Boot
+boot

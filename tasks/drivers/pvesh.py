@@ -30,6 +30,8 @@ class PveshDriver(CommandDriver):
         assert 'gateway' in options
         assert 'netmask' in options
         assert 'hostname' in options
+        assert 'dns1' in options
+        assert 'dns2' in options
 
         shell_proxy_options = {}
         for option in options:
@@ -91,6 +93,8 @@ class PveshKVMDriver(PveshDriver):
         assert 'gateway' in options
         assert 'netmask' in options
         assert 'hostname' in options
+        assert 'dns1' in options
+        assert 'dns2' in options
 
         shell_proxy_options = {}
         for option in options:

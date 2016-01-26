@@ -27,11 +27,13 @@ class TestPveshDriver(unittest.TestCase):
         """
         options = dict(debug=1,
                        vmid=2,
-                       template='kvm.centos.6',
+                       template='kvm.centos.6.64',
                        user='testuser',
                        ram=1024,
                        hdd=50,
                        cpu=2,
+                       dns1='46.17.46.200',
+                       dns2='46.17.40.200',
                        ip='46.17.17.17',
                        gateway='46.17.17.1',
                        netmask='255.255.254.0',
@@ -44,7 +46,7 @@ class TestPveshDriver(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(bootrepo.STATIC_FILES_DIR, '2.pxe')))
 
         self.assertEqual('kvm.pvesh.create', result['return']['SUBCOMMAND'])
-        self.assertEqual('centos.6', result['return']['TEMPLATE'])
+        self.assertEqual('centos.6.64', result['return']['TEMPLATE'])
 
     def test_vps_openvz_create(self):
         """
@@ -52,12 +54,14 @@ class TestPveshDriver(unittest.TestCase):
         """
         options = dict(debug=1,
                        vmid=2,
-                       template='kvm.centos.6',
+                       template='kvm.centos.6.64',
                        user='testuser',
                        ram=1024,
                        hdd=50,
                        cpu=2,
                        ip='46.17.17.17',
+                       dns1='46.17.46.200',
+                       dns2='46.17.40.200',
                        gateway='46.17.17.1',
                        netmask='255.255.254.0',
                        hostname='hostname.host')
@@ -66,4 +70,4 @@ class TestPveshDriver(unittest.TestCase):
         result = driver.create(vps_create, options)
 
         self.assertEqual('openvz.pvesh.create', result['return']['SUBCOMMAND'])
-        self.assertEqual('centos.6', result['return']['TEMPLATE'])
+        self.assertEqual('centos.6.64', result['return']['TEMPLATE'])
