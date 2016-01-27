@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import os
-import socket
 
 from celery.utils.log import get_task_logger
 from jinja2 import Environment, FileSystemLoader

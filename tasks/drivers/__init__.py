@@ -14,6 +14,7 @@ class VpsTemplate(object):
     """
     Represents VPS template name. Consists of driver.options.
     """
+
     def __init__(self, template_name):
         assert template_name
 
@@ -81,9 +82,13 @@ def shell_hook(caller_task, hook_name, options):
         if os.path.exists(json_options_file):
             os.remove(json_options_file)
 
+    logger.info("Process finished. Next we check for errors and return.")
+
     error_code = process.poll()
     if error_code > 0:
         raise Exception("Shell script error code: %s. Check logs." % error_code)
+
+    logger.info("No errors. Return: %s" % command_output)
 
     return {
         'return': command_output,

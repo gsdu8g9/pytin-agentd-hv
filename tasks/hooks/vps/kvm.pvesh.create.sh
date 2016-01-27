@@ -53,20 +53,29 @@ flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
 if [ ! -z ${flask_pid} ]; then
     kill -KILL ${flask_pid}
 fi
-python ../../../bootrepo/webrepo.py &
+python $(dirname ${SCRIPTDIR})/../bootrepo/webrepo.py &
 
 
 set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
 DISK_FILE_NAME=vm-${VMID}-disk-1.qcow2
+
+echo "Create storage"
 pvesh create /nodes/${NODENAME}/storage/local/content -filename ${DISK_FILE_NAME} -format qcow2 -size ${HDD}G -vmid ${VMID}
+
+echo "Create VPS"
 pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name ${HOSTNAME} -storage 'local' -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'rtl8139,rate=100,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
 
+echo "Set config"
 pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/ipxe.lkrn -append 'dhcp && chain http://${NODENAME}:5000/static/${VMID}.boot.pxe'"
+
+echo "Start VPS install"
 pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
+
 set +e
 
 # waiting for the VPS to shutdown
+echo "Waiting for ${VMID} to finish processing."
 qm wait ${VMID} -timeout 1800
 if [ $? -ne 0 ]; then
     echo "Too long VPS creation, check the VPS console. Creation failed."
