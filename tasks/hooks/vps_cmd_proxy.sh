@@ -30,13 +30,6 @@ fi
 
 mv ${TMP_CONFIG_FILE_NAME} ${ARCHIVED_CONFIG}
 
-echo "Restarting Flask for local PXE"
-flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
-if [ ! -z ${flask_pid} ]; then
-    kill -KILL ${flask_pid}
-fi
-python ../../bootrepo/webrepo.py &
-
 # execute task with config
 echo "Running subcommand: ${SUBCOMMAND}"
 
@@ -46,11 +39,6 @@ else
     /bin/bash ./vps/${SUBCOMMAND}.sh ${ARCHIVED_CONFIG}
 fi
 
-flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
-if [ ! -z ${flask_pid} ]; then
-    echo "Killing Flask"
-    kill -KILL ${flask_pid}
-fi
 set +e
 
 exit 0

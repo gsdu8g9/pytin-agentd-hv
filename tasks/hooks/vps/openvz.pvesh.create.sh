@@ -62,6 +62,9 @@ fi
 # After this delimiter all output will be stored in the separate result section - return.
 echo ""
 echo ":RETURN:"
+echo "VMID=${VMID}"
+echo "USER=${USER}"
 echo "ROOTPASS=${ROOTPASS}"
+echo "IP=${IP}"
 
 exit ${RET_CODE}

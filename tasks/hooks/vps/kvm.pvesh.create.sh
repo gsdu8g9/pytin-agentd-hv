@@ -49,6 +49,12 @@ ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
 ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
 echo "Starting Flask"
+flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
+if [ ! -z ${flask_pid} ]; then
+    kill -KILL ${flask_pid}
+fi
+python ../../../bootrepo/webrepo.py &
+
 
 set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
@@ -80,10 +86,19 @@ else
     # After this delimiter all output will be stored in the separate result section - return.
     echo ""
     echo ":RETURN:"
+    echo "VMID=${VMID}"
+    echo "USER=${USER}"
     echo "ROOTPASS=${ROOTPASS}"
+    echo "IP=${IP}"
     cat /etc/pve/local/qemu-server/${VMID}.conf | grep net
 
     RET_CODE=0
+fi
+
+flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
+if [ ! -z ${flask_pid} ]; then
+    echo "Killing Flask"
+    kill -KILL ${flask_pid}
 fi
 
 exit ${RET_CODE}
