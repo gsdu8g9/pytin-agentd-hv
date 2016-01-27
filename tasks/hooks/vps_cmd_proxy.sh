@@ -11,6 +11,17 @@
 CONFIG_ID=$(date +"%s")
 TMP_CONFIG_FILE_NAME="runtime/${CONFIG_ID}.shell"
 
+# killing Flask on exit
+trap killflask EXIT
+killflask()
+{
+    flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
+    if [ ! -z ${flask_pid} ]; then
+        echo "Killing Flask"
+        kill -KILL ${flask_pid}
+    fi
+}
+
 set -e
 python optconv.py $1 ${TMP_CONFIG_FILE_NAME}
 
@@ -36,7 +47,7 @@ flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
 if [ ! -z ${flask_pid} ]; then
     kill -KILL ${flask_pid}
 fi
-python ../../bootrepo/webrepo.py &
+python ../../bootrepo/webrepo.py >/dev/null 2>&1 &
 
 
 # execute task with config
@@ -49,13 +60,6 @@ else
 fi
 
 set +e
-
-
-flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
-if [ ! -z ${flask_pid} ]; then
-    echo "Killing Flask"
-    kill -KILL ${flask_pid}
-fi
 
 
 exit 0
