@@ -1,1 +1,8 @@
-poweroff
+#version=DEVEL
+lang ru_RU.UTF-8
+keyboard us
+
+%pre
+#!/bin/sh
+/bin/poweroff
+%end
