@@ -57,7 +57,7 @@ This script will install:
 * Set directory and files settings
 * Will install dependencies to the environment, listed in requirements.txt.
 
-Open access to redis server for the agent.
+!!! Open access to redis server for the agent host.
 
 
 agentd.cfg

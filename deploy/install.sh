@@ -15,6 +15,8 @@ cd ${DISTRIB_DIR}
 wget https://github.com/servancho/pytin-agentd-hv/archive/master.zip
 unzip master.zip
 
+# reinit app files
+mv ${APP_TARGET} ${APP_TARGET}.$(date +"%s")
 cp -rf ./pytin-agentd-hv-master/* ${APP_TARGET}
 
 echo "Copy production agentd.cfg config"
@@ -26,6 +28,7 @@ echo "Deploying app dependencies"
 sudo -u pyagentd /bin/bash - << venvpart
 id
 cd ${APP_TARGET}
+virtualenv /apps/pytin-agentd/venv
 source ./venv/bin/activate
 
 echo "Update dependencies"
