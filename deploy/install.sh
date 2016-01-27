@@ -53,6 +53,10 @@ cp -f ${APP_TARGET}/deploy/conf/pyagentd.sudo /etc/sudoers.d/pyagentd
 chmod 0440 /etc/sudoers.d/pyagentd
 chown root:root /etc/sudoers.d/*
 
+echo "Update ipxe.lkrn"
+wget -O ${DISTRIB_DIR}/ipxe.lkrn http://boot.ipxe.org/ipxe.lkrn
+chmod 0600 ${DISTRIB_DIR}/ipxe.lkrn
+
 cd
 
 echo "Cleanup"

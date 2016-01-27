@@ -22,6 +22,13 @@ killflask()
 }
 trap killflask EXIT
 
+echo "Starting Flask"
+flask_pid=$(pgrep -f webrepo.py)
+if [ ! -z ${flask_pid} ]; then
+    kill -KILL ${flask_pid}
+fi
+python ../../bootrepo/webrepo.py >/dev/null 2>&1 &
+
 set -e
 python optconv.py $1 ${TMP_CONFIG_FILE_NAME}
 
@@ -40,15 +47,6 @@ if [[ ! -e runtime/vps_cmd_proxy ]]; then
 fi
 
 mv ${TMP_CONFIG_FILE_NAME} ${ARCHIVED_CONFIG}
-
-
-echo "Starting Flask"
-flask_pid=$(pgrep -f webrepo.py)
-if [ ! -z ${flask_pid} ]; then
-    kill -KILL ${flask_pid}
-fi
-python ../../bootrepo/webrepo.py >/dev/null 2>&1 &
-
 
 # execute task with config
 echo "Running subcommand: ${SUBCOMMAND}"
