@@ -41,6 +41,8 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 SCRIPTDIR=$(pwd)
 WORKDIR=${SCRIPTDIR}/${VMID}-$(date +"%s")
 
+trap "{ rm -rf ${WORKDIR} }" EXIT
+
 mkdir -p ${WORKDIR}
 cd ${WORKDIR}
 

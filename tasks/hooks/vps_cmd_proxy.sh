@@ -14,7 +14,7 @@ TMP_CONFIG_FILE_NAME="runtime/${CONFIG_ID}.shell"
 # killing Flask on exit
 killflask()
 {
-    flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
+    flask_pid=$(pgrep -f webrepo.py)
     if [ ! -z ${flask_pid} ]; then
         echo "Killing Flask"
         kill -KILL ${flask_pid}
@@ -43,7 +43,7 @@ mv ${TMP_CONFIG_FILE_NAME} ${ARCHIVED_CONFIG}
 
 
 echo "Starting Flask"
-flask_pid=$(ps x | grep webrepo | grep -v grep | head -n 1 | cut -d' ' -f 1)
+flask_pid=$(pgrep -f webrepo.py)
 if [ ! -z ${flask_pid} ]; then
     kill -KILL ${flask_pid}
 fi
