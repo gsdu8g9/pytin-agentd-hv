@@ -14,7 +14,7 @@ def convert_to_shell(config_data):
         if isinstance(config_value, list):
             config_value = "(%s)" % " ".join(config_value)
 
-        shell_config_strings.append("%s=%s" % (option_name, config_value))
+        shell_config_strings.append('%s="%s"' % (option_name, config_value))
 
     return "\n".join(shell_config_strings)
 

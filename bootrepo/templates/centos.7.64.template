@@ -4,14 +4,14 @@ install
 #logging --host=log.justhost.ru
 text
 
-url --url=http://mirror.yandex.ru/centos/6/os/x86_64
+url --url=http://mirror.yandex.ru/centos/7/os/x86_64
 lang ru_RU.UTF-8
 keyboard us
 
 # Настройка сети
 network --onboot yes --bootproto static --ip {{ data['ip'] }} --netmask {{ data['netmask'] }} --gateway {{ data['gateway'] }} --noipv6 --nameserver {{ data['dns1'] }} --hostname="{{ data['hostname'] }}"
 
-rootpw  "{{ data['rootpass'] }}"
+rootpw "{{ data['rootpass'] }}"
 firewall --service=ssh
 authconfig --enableshadow --passalgo=sha512
 selinux --disabled
@@ -19,7 +19,7 @@ timezone --utc Europe/Moscow
 
 %include /tmp/part-include
 
-repo --name="CentOS"  --baseurl=http://mirror.yandex.ru/centos/6/os/x86_64 --cost=100
+repo --name="CentOS"  --baseurl=http://mirror.yandex.ru/centos/7/os/x86_64 --cost=100
 
 poweroff
 
@@ -66,6 +66,5 @@ export PATH
 wget -O /root/setup.sh https://raw.githubusercontent.com/servancho/pytin/master/scripts/centos/setup.sh)
 bash /root/setup.sh
 rm /root/setup.sh
-
 
 %end
