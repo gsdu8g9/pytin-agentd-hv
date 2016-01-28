@@ -5,7 +5,8 @@ install
 text
 
 url --url=http://mirror.yandex.ru/centos/7/os/x86_64
-lang ru_RU.UTF-8
+repo --name="CentOS"  --baseurl=http://mirror.yandex.ru/centos/7/os/x86_64 --cost=100
+lang en_US.UTF-8
 keyboard us
 
 # Настройка сети
@@ -18,8 +19,6 @@ selinux --disabled
 timezone --utc Europe/Moscow
 
 %include /tmp/part-include
-
-repo --name="CentOS"  --baseurl=http://mirror.yandex.ru/centos/7/os/x86_64 --cost=100
 
 poweroff
 
@@ -35,13 +34,11 @@ mc
 
 echo "Linux box by Justhost.ru. Created `/bin/date`" > /etc/motd
 
-echo "nameserver {{ dns1 }}" > /etc/resolv.conf
-
 # KVM
 echo "bootloader --location=mbr --driveorder=vda --append=\"nomodeset crashkernel=auto rhgb quiet\"" > /tmp/part-include
 
 # Очистка диска
-echo "zerombr yes" >> /tmp/part-include
+echo "zerombr" >> /tmp/part-include
 echo "clearpart --all --drives=vda --initlabel" >> /tmp/part-include
 
 # Загрузчик
@@ -64,7 +61,6 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
 wget -O /root/setup.sh https://raw.githubusercontent.com/servancho/pytin/master/scripts/centos/setup.sh)
-bash /root/setup.sh
-rm /root/setup.sh
+bash /root/setup.sh && rm /root/setup.sh
 
 %end

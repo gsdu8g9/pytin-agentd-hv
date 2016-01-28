@@ -5,7 +5,7 @@ install
 text
 
 url --url=http://mirror.yandex.ru/centos/6/os/x86_64
-lang ru_RU.UTF-8
+lang en_US.UTF-8
 keyboard us
 
 # Настройка сети
@@ -64,8 +64,7 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
 wget -O /root/setup.sh https://raw.githubusercontent.com/servancho/pytin/master/scripts/centos/setup.sh)
-bash /root/setup.sh
-rm /root/setup.sh
+bash /root/setup.sh && rm /root/setup.sh
 
 
 %end

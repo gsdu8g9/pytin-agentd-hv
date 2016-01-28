@@ -1,5 +1,5 @@
 #version=DEVEL
-lang ru_RU.UTF-8
+lang en_US.UTF-8
 keyboard us
 
 %pre
