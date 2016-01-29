@@ -1,0 +1,14 @@
+#!ipxe
+
+echo CentOS 6 + VestaCP
+set ksuri http://{{ data['nodename'] }}.justhost.ru:5000/static/{{ data['vmid'] }}.pxe
+set urlmirror http://mirror.yandex.ru/centos/6/os/x86_64
+
+echo Load kernel...
+kernel ${urlmirror}/images/pxeboot/vmlinuz loglevel=debug keyboard=us lang=en_US text netwait=120 ksdevice=link edd=off repo=${urlmirror} ip={{ data['ip'] }} gateway={{ data['gateway'] }} netmask={{ data['netmask'] }} hostname={{ data['hostname'] }} dns={{ data['dns1'] }} ks=${ksuri}
+
+echo Load initrd...
+initrd ${urlmirror}/images/pxeboot/initrd.img
+
+echo Boot
+boot
