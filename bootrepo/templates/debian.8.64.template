@@ -1,11 +1,11 @@
-# (Debian 7)
+# (Debian 8)
 #
 # Copyright (c) 2015 RemiZOffAlex
 
 d-i debconf/language string ru
 
 # Локализация
-d-i debian-installer/language string ru
+d-i debian-installer/language string en
 d-i debian-installer/country string RU
 d-i debian-installer/locale string en_US.UTF-8
 
@@ -38,7 +38,7 @@ d-i netcfg/dhcp_options select Configure network manually
 d-i netcfg/get_ipaddress string {{ data['ip'] }}
 d-i netcfg/get_netmask string {{ data['netmask'] }}
 d-i netcfg/get_gateway string {{ data['gateway'] }}
-d-i netcfg/get_nameservers string {{ data['dns'] }}
+d-i netcfg/get_nameservers string {{ data['dns1'] }} {{ data['dns2'] }}
 d-i netcfg/confirm_static boolean true
 
 # IPv6
@@ -87,10 +87,11 @@ d-i mirror/http/proxy string
 # Пользователи
 d-i passwd/root-login boolean true
 d-i passwd/make-user boolean false
-d-i passwd/root-password-crypted password {{ data['password'] }}
+d-i passwd/root-password password {{ data['rootpass'] }}
+d-i passwd/root-password-again password {{ data['rootpass'] }}
 
 # Позволить доступ к серверу под пользователем root через SSH
-openssh-server  openssh-server/permit-root-login    boolean	true
+openssh-server  openssh-server/permit-root-login    boolean     true
 
 # Время, зона, сервер точного времени
 d-i clock-setup/utc boolean true
@@ -123,23 +124,23 @@ d-i partman-auto-lvm/guided_size string max
 d-i partman-lvm/confirm_nooverwrite boolean true
 d-i partman-basicfilesystems/no_swap boolean false
 
-d-i partman-auto/expert_recipe string                           \
-    boot-root ::                                              \
-        512 512 512 ext4                                  \
-            $primary{ } $bootable{ }                  \
-            method{ format } format{ }                \
-            use_filesystem{ } filesystem{ ext4 }      \
-            mountpoint{ /boot }                       \
-        .                                                 \
-        2048 1000000 100000000 lvm \
-            $primary{ } $defaultignore{ } \
-            method{ lvm } vg_name{ vg_jh } \
-        . \
-        2048 1000000 100000000 ext4 \
-            $lvmok{ } in_vg{ vg_jh } lv_name{ root } \
-            method{ format } format{ } \
-            use_filesystem{ } filesystem{ ext4 } \
-            mountpoint{ / } \
+d-i partman-auto/expert_recipe string                   \
+    boot-root ::                                        \
+        512 512 512 ext4                                \
+            $primary{ } $bootable{ }                    \
+            method{ format } format{ }                  \
+            use_filesystem{ } filesystem{ ext4 }        \
+            mountpoint{ /boot }                         \
+        .                                               \
+        2048 1000000 100000000 lvm                      \
+            $primary{ } $defaultignore{ }               \
+            method{ lvm } vg_name{ vg_jh }              \
+        .                                               \
+        2048 1000000 100000000 ext4                     \
+            $lvmok{ } in_vg{ vg_jh } lv_name{ root }    \
+            method{ format } format{ }                  \
+            use_filesystem{ } filesystem{ ext4 }        \
+            mountpoint{ / }                             \
         .
 
 d-i partman-partitioning/confirm_write_new_label boolean true
@@ -151,9 +152,10 @@ d-i partman/confirm_nooverwrite boolean true
 d-i partman/mount_style select uuid
 
 # GRUB
+# d-i grub-installer/early_command string debconf-set grub-installer/bootdev "$(list-devices disk | head -n1)"
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-d-i grub-pc/install_devices multiselect /dev/sda
+# d-i grub-pc/install_devices multiselect /dev/sda
 
 ### Base system installation
 # Configure APT to not install recommended packages by default. Use of this
@@ -224,16 +226,6 @@ d-i finish-install/reboot_in_progress note
 # This will power off the machine instead of just halting it.
 d-i debian-installer/exit/poweroff boolean true
 
-### Preseeding other packages
-# Depending on what software you choose to install, or if things go wrong
-# during the installation process, it's possible that other questions may
-# be asked. You can preseed those too, of course. To get a list of every
-# possible question that could be asked during an install, do an
-# installation, and then run these commands:
-#   debconf-get-selections --installer > file
-#   debconf-get-selections >> file
-
-
 #### Advanced options
 ### Running custom commands during the installation
 # d-i preseeding is inherently not secure. Nothing in the installer checks
@@ -255,4 +247,7 @@ d-i debian-installer/exit/poweroff boolean true
 # still a usable /target directory. You can chroot to /target and use it
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
-d-i preseed/late_command string in-target wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin/master/scripts/debian/default.sh -O /root/default.sh; in-target bash /root/default.sh
+d-i preseed/late_command string \
+in-target wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin/master/scripts/debian/default.sh -O /root/default.sh; \
+in-target bash /root/default.sh; \
+in-target sed -i '/^PermitRootLogin/c PermitRootLogin yes' /etc/ssh/sshd_config ;

@@ -256,4 +256,6 @@ d-i debian-installer/exit/poweroff boolean true
 # still a usable /target directory. You can chroot to /target and use it
 # directly, or use the apt-install and in-target commands to easily install
 # packages and run commands in the target system.
-d-i preseed/late_command string in-target wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin/master/scripts/debian/default.sh -O /root/default.sh; in-target bash /root/default.sh
+d-i preseed/late_command string \
+in-target wget --no-check-certificate https://raw.githubusercontent.com/servancho/pytin/master/scripts/debian/default.sh -O /root/default.sh; \
+in-target bash /root/default.sh

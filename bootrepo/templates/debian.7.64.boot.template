@@ -12,7 +12,7 @@ kernel ${urlmirror}/linux auto=true netcfg/choose_interface=auto \\
   netcfg/get_nameservers={{ data['dns1'] }} \\
   netcfg/confirm_static=true \\
   preseed/url=${ksuri} \\
-  language=ru interface=auto hostname={{ data['hostname'] }} \\
+  language=en interface=auto hostname={{ data['hostname'] }} \\
   domain=justhost.ru DEBCONF_DEBUG=5 --
 echo Load initrd...
 initrd ${urlmirror}/initrd.gz
