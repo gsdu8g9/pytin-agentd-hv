@@ -121,13 +121,14 @@ kvm.ubuntu.14.04.64
 
 Driver: openvz
 --------------
+openvz.centos-6-x86
+openvz.centos-6-x86_64
+openvz.centos-6-x86_64-minimal
+openvz.centos-7-x86_64
 openvz.debian-7.0-x86
 openvz.ubuntu-14.04-x86
 openvz.ubuntu-14.04-x86_64
-openvz.centos-6-x86
-openvz.centos-6-x86_64
-openvz.centos-7-x86_64
-openvz.centos-6-x86_64-minimal
+openvz.ubuntu-15.04-x86_64
 
 
 Testing new templates
