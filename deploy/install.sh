@@ -17,6 +17,7 @@ unzip master.zip
 
 # reinit app files
 mv ${APP_TARGET} ${APP_TARGET}.$(date +"%s")
+mkdir -p ${APP_TARGET}
 cp -rf ./pytin-agentd-hv-master/* ${APP_TARGET}
 
 echo "Copy production agentd.cfg config"
