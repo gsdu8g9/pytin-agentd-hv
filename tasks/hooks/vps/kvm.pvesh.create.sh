@@ -70,7 +70,7 @@ set +e
 
 # waiting for the VPS to shutdown
 echo "Waiting for ${VMID} to finish processing."
-qm wait ${VMID} -timeout 1800
+qm wait ${VMID} -timeout 3600
 if [ $? -ne 0 ]; then
     echo "Too long VPS creation, check the VPS console. Creation failed."
     pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/stop

@@ -2,11 +2,11 @@
 #
 # Copyright (c) 2015 RemiZOffAlex
 
-d-i debconf/language string ru
+d-i debconf/language string en
 
 # Локализация
 d-i debian-installer/language string en
-d-i debian-installer/country string RU
+d-i debian-installer/country string US
 d-i debian-installer/locale string en_US.UTF-8
 
 # The values can also be preseeded individually for greater flexibility.
