@@ -41,14 +41,14 @@ echo "Loading config from " ${VPS_CONFIG_FILE}
 ROOTPASS_GEN=`perl -le'print map+(A..Z,a..z,0..9)[rand 62],0..15'`
 ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
-set -e
 OVZ_TEMPLATE_FILE=/var/lib/vz/template/cache/${TEMPLATE}.tar.gz
 if [[ ! -e ${OVZ_TEMPLATE_FILE} ]]; then
     wget --no-check-certificate -P /var/lib/vz/template/cache/ http://download.openvz.org/template/precreated/${TEMPLATE}.tar.gz
 fi
 
+set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
-pvesh create /nodes/${NODENAME}/openvz -vmid ${VMID} -ostemplate "local:vztmpl/${TEMPLATE}.tar.gz" -hostname ${HOSTNAME} -disk ${HDD} -swap 0 -memory ${RAM} -cpus ${CPU} -onboot yes -ip_address ${IP} -nameserver "${DNS1},${DNS2}"
+pvesh create /nodes/${NODENAME}/openvz -vmid ${VMID} -ostemplate "local:vztmpl/${TEMPLATE}.tar.gz" -hostname ${HOSTNAME} -disk ${HDD} -swap 0 -memory ${RAM} -cpus ${CPU} -onboot yes -ip_address ${IP} -nameserver "${DNS1}" -nameserver "${DNS2}"
 pvesh create /nodes/${NODENAME}/openvz/${VMID}/status/start
 set +e
 

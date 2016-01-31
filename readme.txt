@@ -128,7 +128,6 @@ openvz.centos-7-x86_64
 openvz.debian-7.0-x86
 openvz.ubuntu-14.04-x86
 openvz.ubuntu-14.04-x86_64
-openvz.ubuntu-15.04-x86_64
 
 
 Testing new templates

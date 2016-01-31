@@ -27,10 +27,10 @@ flask_pid=$(pgrep -f webrepo.py)
 if [ ! -z ${flask_pid} ]; then
     kill -KILL ${flask_pid}
 fi
-python ../../bootrepo/webrepo.py >/dev/null 2>&1 &
+python2.7 ../../bootrepo/webrepo.py >/dev/null 2>&1 &
 
 set -e
-python optconv.py $1 ${TMP_CONFIG_FILE_NAME}
+python2.7 optconv.py $1 ${TMP_CONFIG_FILE_NAME}
 
 . "${TMP_CONFIG_FILE_NAME}"
 

@@ -11,6 +11,8 @@ echo "Stopping services"
 
 echo "Deploying app"
 mkdir -p ${DISTRIB_DIR}
+rm -f ${DISTRIB_DIR}/*.zip
+rm -f ${DISTRIB_DIR}/*.zip.*
 cd ${DISTRIB_DIR}
 wget https://github.com/servancho/pytin-agentd-hv/archive/master.zip
 unzip master.zip
@@ -63,6 +65,7 @@ cd
 echo "Cleanup"
 rm -rf ${DISTRIB_DIR}/pytin-agentd-hv-master
 rm -f ${DISTRIB_DIR}/*.zip
+rm -f ${DISTRIB_DIR}/*.zip.*
 rm -rf ${APP_TARGET}/tests
 rm -rf ${APP_TARGET}/deploy
 
