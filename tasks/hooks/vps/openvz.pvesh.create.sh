@@ -48,7 +48,7 @@ fi
 
 set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
-pvesh create /nodes/${NODENAME}/openvz -vmid ${VMID} -ostemplate "local:vztmpl/${TEMPLATE}.tar.gz" -hostname ${HOSTNAME} -disk ${HDD} -swap 0 -memory ${RAM} -cpus ${CPU} -onboot yes -ip_address ${IP} -nameserver "${DNS1}" -nameserver "${DNS2}"
+pvesh create /nodes/${NODENAME}/openvz -vmid ${VMID} -ostemplate "local:vztmpl/${TEMPLATE}.tar.gz" -password ${ROOTPASS} -hostname ${HOSTNAME} -disk ${HDD} -swap 0 -memory ${RAM} -cpus ${CPU} -onboot yes -ip_address ${IP} -nameserver "${DNS1}" -nameserver "${DNS2}"
 pvesh create /nodes/${NODENAME}/openvz/${VMID}/status/start
 set +e
 
