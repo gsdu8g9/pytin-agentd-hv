@@ -70,7 +70,7 @@ rm -rf ${APP_TARGET}/tests
 rm -rf ${APP_TARGET}/deploy
 
 echo "Starting services"
-/etc/init.d/celeryd start
+/etc/init.d/celeryd restart
 /etc/init.d/celerybeat start
 
 

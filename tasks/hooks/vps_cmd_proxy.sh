@@ -22,12 +22,20 @@ killflask()
 }
 trap killflask EXIT
 
-echo "Starting Flask"
+echo "Starting Flask inside venv"
 flask_pid=$(pgrep -f webrepo.py)
 if [ ! -z ${flask_pid} ]; then
     kill -KILL ${flask_pid}
 fi
-python2.7 ../../bootrepo/webrepo.py >/dev/null 2>&1 &
+
+SAVE_DIR=$(pwd)
+cd ../../
+source ./venv/bin/activate
+
+python ./bootrepo/webrepo.py >/dev/null 2>&1 &
+
+deactivate
+cd ${SAVE_DIR}
 
 set -e
 python2.7 optconv.py $1 ${TMP_CONFIG_FILE_NAME}
