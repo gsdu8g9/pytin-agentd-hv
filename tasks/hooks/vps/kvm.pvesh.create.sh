@@ -32,7 +32,7 @@ fi
 
 VPS_CONFIG_FILE=$1
 
-echo "Loading config from " ${VPS_CONFIG_FILE}
+echo "Loading config from ${VPS_CONFIG_FILE}"
 . "${VPS_CONFIG_FILE}"
 
 ################## do not change #################
@@ -55,13 +55,13 @@ NODENAME=$(hostname | cut -d'.' -f 1)
 DISK_FILE_NAME=vm-${VMID}-disk-1.qcow2
 
 echo "Create storage"
-pvesh create /nodes/${NODENAME}/storage/local/content -filename ${DISK_FILE_NAME} -format qcow2 -size ${HDD}G -vmid ${VMID}
+pvesh create /nodes/${NODENAME}/storage/local/content -filename "${DISK_FILE_NAME}" -format qcow2 -size "${HDD}G" -vmid ${VMID}
 
 echo "Create VPS"
-pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name ${HOSTNAME} -storage 'local' -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'e1000,rate=100,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
+pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name "${HOSTNAME}" -storage 'local' -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'e1000,rate=100,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
 
 echo "Testing boot KS"
-wget -q http://${NODENAME}:5000/static/${VMID}.boot.pxe
+wget -q "http://${NODENAME}:5000/static/${VMID}.boot.pxe"
 
 echo "Set args config"
 pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/pyagentd/ipxe.lkrn -append 'dhcp && chain http://${NODENAME}:5000/static/${VMID}.boot.pxe'"
@@ -84,9 +84,10 @@ else
     pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -delete args
     pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
 
-    if [[ ! -z ${USER} ]]; then
-        pvesh create /access/users -userid "${USER}@pve" -password ${ROOTPASS} -comment "PyAgent created ${USER}"
-        pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    if [[ ! -z "${USER}" ]]; then
+        pvesh create /access/users -userid "${USER}@pve" -password "${ROOTPASS}" -comment "PyAgent created ${USER}"
+        pvesh set /access/acl -path /vms/${VMID} -users "${USER}@pve" -roles PVEVMUser
+        pvesh set /access/password -userid "${USER}@pve" -password "${ROOTPASS}"
     fi
 
     # After this delimiter all output will be stored in the separate result section - return.

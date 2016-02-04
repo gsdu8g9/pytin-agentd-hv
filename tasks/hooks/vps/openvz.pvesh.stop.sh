@@ -44,7 +44,7 @@ pvesh set /nodes/${NODENAME}/openvz/${VMID}/config -onboot no
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser -delete yes
+    pvesh set /access/acl -path /vms/${VMID} -users "${USER}@pve" -roles PVEVMUser -delete yes
 fi
 
 exit ${RET_CODE}

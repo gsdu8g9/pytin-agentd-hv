@@ -44,7 +44,7 @@ pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    pvesh set /access/acl -path /vms/${VMID} -users "${USER}@pve" -roles PVEVMUser
 fi
 
 exit ${RET_CODE}

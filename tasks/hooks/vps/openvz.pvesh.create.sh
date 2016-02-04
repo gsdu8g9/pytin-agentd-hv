@@ -55,8 +55,9 @@ set +e
 RET_CODE=$?
 
 if [[ ! -z ${USER} ]]; then
-    pvesh create /access/users -userid "${USER}@pve" -password ${ROOTPASS} -comment "PyAgent created ${USER}"
-    pvesh set /access/acl -path /vms/${VMID} -users ${USER}@pve -roles PVEVMUser
+    pvesh create /access/users -userid "${USER}@pve" -password "${ROOTPASS}" -comment "PyAgent created ${USER}"
+    pvesh set /access/acl -path /vms/${VMID} -users "${USER}@pve" -roles PVEVMUser
+    pvesh set /access/password -userid "${USER}@pve" -password "${ROOTPASS}"
 fi
 
 # After this delimiter all output will be stored in the separate result section - return.
