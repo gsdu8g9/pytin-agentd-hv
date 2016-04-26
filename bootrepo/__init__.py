@@ -5,4 +5,3 @@ import socket
 
 TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 STATIC_FILES_DIR = os.path.join(os.path.dirname(__file__), 'static')
-NODENAME = socket.gethostname().split('.', 1)[0].lower()

@@ -52,7 +52,9 @@ ROOTPASS=${ROOTPASS:-"${ROOTPASS_GEN}"}
 
 set -e
 NODENAME=$(hostname | cut -d'.' -f 1)
+PXEHOST=$(hostname -i)
 DISK_FILE_NAME=vm-${VMID}-disk-1.qcow2
+
 
 echo "Create storage"
 pvesh create /nodes/${NODENAME}/storage/local/content -filename "${DISK_FILE_NAME}" -format qcow2 -size "${HDD}G" -vmid ${VMID}
@@ -61,10 +63,10 @@ echo "Create VPS"
 pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name "${HOSTNAME}" -storage 'local' -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'rtl8139,rate=12,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
 
 echo "Testing boot KS"
-wget -q "http://${NODENAME}:5000/static/${VMID}.boot.pxe"
+wget -q "http://${PXEHOST}:5000/static/${VMID}.boot.pxe"
 
 echo "Set args config"
-pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/pyagentd/ipxe.lkrn -append 'dhcp && chain http://${NODENAME}:5000/static/${VMID}.boot.pxe'"
+pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/pyagentd/ipxe.lkrn -append 'set net0/ip ${IP} && set net0/netmask ${NETMASK} && set net0/gateway ${GATEWAY} && set dns ${DNS1} && ifopen net0 && chain http://${PXEHOST}:5000/static/${VMID}.boot.pxe'"
 
 echo "Start VPS install"
 pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start

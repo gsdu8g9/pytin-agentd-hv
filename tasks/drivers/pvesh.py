@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import socket
 
 from celery.utils.log import get_task_logger
 from jinja2 import Environment, FileSystemLoader
@@ -127,7 +128,7 @@ class PveshKVMDriver(PveshDriver):
         if not os.path.exists(fs_template_path):
             raise IOError('Template %s does not exists.' % fs_template_path)
 
-        options['nodename'] = bootrepo.NODENAME
+        options['nodename'] = socket.gethostbyname(socket.gethostname())
 
         rendered_fs_template_path = os.path.join(bootrepo.STATIC_FILES_DIR, rendered_name)
         j2_env = Environment(loader=FileSystemLoader(bootrepo.TEMPLATES_DIR), trim_blocks=True)

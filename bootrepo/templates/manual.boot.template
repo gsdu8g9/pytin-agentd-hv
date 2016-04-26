@@ -1,7 +1,7 @@
 #!ipxe
 
 echo Manual
-set ksuri http://{{ data['nodename'] }}.justhost.ru:5000/static/{{ data['vmid'] }}.pxe
+set ksuri http://{{ data['pxehost'] }}:5000/static/{{ data['vmid'] }}.pxe
 set urlmirror http://mirror.yandex.ru/centos/6/os/x86_64
 
 echo Load kernel...
