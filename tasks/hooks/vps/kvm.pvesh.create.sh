@@ -60,21 +60,26 @@ echo "Create storage"
 HDD=$((HDD + 5))
 pvesh create /nodes/${NODENAME}/storage/local/content -filename "${DISK_FILE_NAME}" -format qcow2 -size "${HDD}G" -vmid ${VMID}
 
+echo ""
 echo "Create VPS with SETUP only config"
 pvesh create /nodes/${NODENAME}/qemu -vmid ${VMID} -name "${HOSTNAME}" -storage 'local' -memory 4096 -sockets 1 -cores 4 -net0 'rtl8139,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback" -cdrom "none" -onboot yes
 
+echo ""
 echo "Testing boot KS"
 wget -q "http://${PXEHOST}:5000/static/${VMID}.boot.pxe"
 
+echo ""
 echo "Set args config"
 pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -args "-kernel /root/pyagentd/ipxe.lkrn -append 'set net0/ip ${IP} && set net0/netmask ${NETMASK} && set net0/gateway ${GATEWAY} && set dns ${DNS1} && ifopen net0 && chain http://${PXEHOST}:5000/static/${VMID}.boot.pxe'"
 
+echo ""
 echo "Start VPS install"
 pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
 
 set +e
 
 # waiting for the VPS to shutdown
+echo ""
 echo "Waiting for ${VMID} to finish processing."
 qm wait ${VMID} -timeout 3600
 if [ $? -ne 0 ]; then
@@ -86,9 +91,11 @@ else
     # unmount cd, remove args
     pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -delete args
 
+    echo ""
     echo "Setting real config for the VPS ${VMID}"
-    pvesh set /nodes/${NODENAME}/qemu -vmid ${VMID} -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'rtl8139,rate=12,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
+    pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -memory ${RAM} -sockets 1 -cores ${CPU} -net0 'rtl8139,rate=12,bridge=vmbr0' -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
 
+    echo "Starting VPS"
     pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
 
     if [[ ! -z "${USER}" ]]; then
