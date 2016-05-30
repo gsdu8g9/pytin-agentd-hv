@@ -1,4 +1,4 @@
-# (Ubuntu 14.04 )
+# (Ubuntu 16.04 )
 #
 # Copyright (c) 2015 RemiZOffAlex
 
@@ -102,7 +102,11 @@ d-i clock-setup/ntp-server string ntp1.vniiftri.ru
 # Разметка диска
 #d-i partman-auto/disk string /dev/vda
 # d-i partman/early_command string debconf-set partman-auto/disk "$(list-devices disk | head -n1)"
-d-i partman/early_command string DISKA=$(list-devices disk | head -n1); debconf-set partman-auto/disk "$DISKA";
+d-i partman/early_command string \
+DISKA=$(list-devices disk | head -n1);\
+DISKB=$(list-devices disk|head -n2|tail -1);\
+debconf-set partman-auto/disk "$DISKA";\
+debconf-set grub-installer/bootdev "$DISKA";
 
 d-i partman-auto/method string lvm
 d-i partman-lvm/device_remove_lvm boolean true

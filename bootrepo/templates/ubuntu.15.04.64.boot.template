@@ -1,8 +1,8 @@
 #!ipxe
 
-echo Ubuntu 14.04
+echo Ubuntu 15.04
 set ksuri http://{{ data['pxehost'] }}:5000/static/{{ data['vmid'] }}.pxe
-set urlmirror http://mirror.yandex.ru/ubuntu/dists/vivid/main/installer-i386/current/images/netboot/ubuntu-installer/i386/
+set urlmirror http://mirror.yandex.ru/ubuntu/dists/vivid/main/installer-amd64/current/images/netboot/ubuntu-installer/amd64/
 echo Load kernel...
 kernel ${urlmirror}/linux auto=true netcfg/choose_interface=auto \\
   netcfg/link_detection_timeout=0 netcfg/disable_dhcp=true \\
