@@ -17,6 +17,8 @@ AGENT_NODE_QUEUE_HEARTBEAT = "%s.heartbeat" % socket.gethostname()
 BROKER_URL = AGENT_CONFIG.get('agent', 'broker')
 CELERY_RESULT_BACKEND = AGENT_CONFIG.get('agent', 'backend')
 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 10800}
+
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
