@@ -58,3 +58,4 @@ docs/_build/
 target/
 .idea/
 /agentd.cfg
+.DS_Store

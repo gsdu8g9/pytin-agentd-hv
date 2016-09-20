@@ -80,7 +80,7 @@ set +e
 
 # waiting for the VPS to shutdown
 echo ""
-echo "Waiting for ${VMID} to finish processing."
+echo "Waiting VMID ${VMID} to finish processing."
 qm wait ${VMID} -timeout 7200
 if [ $? -ne 0 ]; then
     echo "Too long VPS creation, check the VPS console. Creation failed."
@@ -93,7 +93,7 @@ else
 
     echo ""
     echo "Setting real config for the VPS ${VMID}"
-    pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -balloon 0 -memory ${RAM} -sockets 1 -cores ${CPU} -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5" -cdrom "none" -onboot yes
+    pvesh set /nodes/${NODENAME}/qemu/${VMID}/config -balloon 0 -memory ${RAM} -sockets 1 -cores ${CPU} -virtio0 "local:${VMID}/${DISK_FILE_NAME},cache=writeback,mbps_rd=5,mbps_wr=5,iops_rd=1000,iops_wr=1000" -cdrom "none" -onboot yes
 
     echo "Starting VPS"
     pvesh create /nodes/${NODENAME}/qemu/${VMID}/status/start
